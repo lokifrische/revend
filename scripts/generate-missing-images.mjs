@@ -1,6 +1,6 @@
 // Generate SVG-based product images for all missing device families
 import sharp from '/home/openclaw/.openclaw/workspace/revend/node_modules/sharp/lib/index.js';
-import { writeFileSync, existsSync } from 'fs';
+import { } from 'fs';
 import { resolve } from 'path';
 
 const OUT_DIR = '/home/openclaw/.openclaw/workspace/revend/public/images';
@@ -309,7 +309,7 @@ function getShape(shape, bg1, bg2, accent) {
 function generateSVG(device) {
   const { name, brand, bg1, bg2, accent, shape } = device;
 
-  return `<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  return `<svg width="1000" height="1000" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:${bg1};stop-opacity:1" />
@@ -326,7 +326,7 @@ function generateSVG(device) {
   </defs>
 
   <!-- Background -->
-  <rect width="500" height="500" fill="url(#bg)"/>
+  <rect width="1000" height="1000" fill="url(#bg)"/>
 
   <!-- Ambient glow -->
   <ellipse cx="250" cy="220" rx="210" ry="190" fill="url(#glow)"/>
@@ -350,22 +350,15 @@ function generateSVG(device) {
 
 async function main() {
   let generated = 0;
-  let skipped = 0;
 
   for (const device of devices) {
     const pngPath = resolve(OUT_DIR, `${device.filename}.png`);
 
-    if (existsSync(pngPath)) {
-      console.log(`⏭  ${device.filename}.png — already exists`);
-      skipped++;
-      continue;
-    }
-
     const svgContent = generateSVG(device);
 
     try {
-      await sharp(Buffer.from(svgContent))
-        .png({ quality: 95 })
+      await sharp(Buffer.from(svgContent), { density: 300 })
+        .png({ compressionLevel: 6 })
         .toFile(pngPath);
       console.log(`✅ ${device.filename}.png — ${device.name}`);
       generated++;
@@ -374,7 +367,7 @@ async function main() {
     }
   }
 
-  console.log(`\nDone. Generated: ${generated} | Skipped: ${skipped}`);
+  console.log(`\nDone. Regenerated: ${generated} images at 1000×1000 (2×)`);
 }
 
 main();

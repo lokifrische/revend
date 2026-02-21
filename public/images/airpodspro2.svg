@@ -1,0 +1,58 @@
+<svg width="1000" height="1000" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5F5F7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E0E0E5;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="screenGlow" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" style="stop-color:#0071E3;stop-opacity:0.15" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0" />
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#0071E3;stop-opacity:0.12" />
+      <stop offset="100%" style="stop-color:#0071E3;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1000" height="1000" fill="url(#bg)"/>
+  
+  <!-- Subtle glow -->
+  <ellipse cx="250" cy="220" rx="200" ry="180" fill="url(#glow)"/>
+  
+  <!-- Device shape -->
+  
+        <!-- AirPods Pro silhouette -->
+        <!-- Left earbud -->
+        <ellipse cx="185" cy="190" rx="38" ry="48" fill="#E0E0E5" stroke="#88888844" stroke-width="1.5"/>
+        <ellipse cx="185" cy="190" rx="28" ry="35" fill="#DDDDDE"/>
+        <!-- Left stem -->
+        <rect x="179" y="228" width="12" height="45" rx="6" fill="#E0E0E5" stroke="#88888844" stroke-width="1"/>
+        <!-- Right earbud -->
+        <ellipse cx="315" cy="190" rx="38" ry="48" fill="#E0E0E5" stroke="#88888844" stroke-width="1.5"/>
+        <ellipse cx="315" cy="190" rx="28" ry="35" fill="#DDDDDE"/>
+        <!-- Right stem -->
+        <rect x="309" y="228" width="12" height="45" rx="6" fill="#E0E0E5" stroke="#88888844" stroke-width="1"/>
+        <!-- Speaker mesh dots -->
+        <circle cx="180" cy="187" r="2.5" fill="#BBBBBB"/>
+        <circle cx="189" cy="187" r="2.5" fill="#BBBBBB"/>
+        <circle cx="184.5" cy="196" r="2.5" fill="#BBBBBB"/>
+        <circle cx="310" cy="187" r="2.5" fill="#BBBBBB"/>
+        <circle cx="319" cy="187" r="2.5" fill="#BBBBBB"/>
+        <circle cx="314.5" cy="196" r="2.5" fill="#BBBBBB"/>
+      
+  
+  <!-- Brand name -->
+  <text x="250" y="390" 
+    font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif"
+    font-size="13" font-weight="500" letter-spacing="2"
+    fill="#0071E3" opacity="0.9" text-anchor="middle"
+    text-rendering="optimizeLegibility">APPLE</text>
+  
+  <!-- Device name -->
+  <text x="250" y="415"
+    font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif"
+    font-size="17" font-weight="600" letter-spacing="0.3"
+    fill="#FFFFFF" opacity="0.95" text-anchor="middle"
+    text-rendering="optimizeLegibility">AirPods Pro 2</text>
+</svg>

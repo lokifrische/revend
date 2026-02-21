@@ -1,0 +1,51 @@
+<svg width="1000" height="1000" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5F5F0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E0E0D8;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="screenGlow" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" style="stop-color:#0071E3;stop-opacity:0.15" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0" />
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#0071E3;stop-opacity:0.12" />
+      <stop offset="100%" style="stop-color:#0071E3;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1000" height="1000" fill="url(#bg)"/>
+  
+  <!-- Subtle glow -->
+  <ellipse cx="250" cy="220" rx="200" ry="180" fill="url(#glow)"/>
+  
+  <!-- Device shape -->
+  
+        <!-- MacBook silhouette -->
+        <!-- Screen lid -->
+        <rect x="100" y="80" width="300" height="190" rx="10" ry="10" fill="#E0E0D8" stroke="#0071E322" stroke-width="1"/>
+        <rect x="112" y="92" width="276" height="166" rx="4" ry="4" fill="#0D0D0D"/>
+        <rect x="115" y="95" width="270" height="160" rx="3" ry="3" fill="url(#screenGlow)"/>
+        <!-- Base -->
+        <rect x="80" y="268" width="340" height="32" rx="6" ry="6" fill="#E0E0D8"/>
+        <!-- Hinge line -->
+        <rect x="80" y="267" width="340" height="3" rx="1" fill="#0071E344"/>
+        <!-- Trackpad -->
+        <rect x="185" y="278" width="130" height="14" rx="4" ry="4" fill="#F5F5F066" stroke="#0071E333" stroke-width="1"/>
+      
+  
+  <!-- Brand name -->
+  <text x="250" y="390" 
+    font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif"
+    font-size="13" font-weight="500" letter-spacing="2"
+    fill="#0071E3" opacity="0.9" text-anchor="middle"
+    text-rendering="optimizeLegibility">APPLE</text>
+  
+  <!-- Device name -->
+  <text x="250" y="415"
+    font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif"
+    font-size="17" font-weight="600" letter-spacing="0.3"
+    fill="#FFFFFF" opacity="0.95" text-anchor="middle"
+    text-rendering="optimizeLegibility">MacBook Air 13"</text>
+</svg>

@@ -198,7 +198,7 @@ function getShape(shape, bg1, bg2, accent) {
 function generateSVG(device) {
   const { name, brand, bg1, bg2, accent, shape } = device;
   
-  return `<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  return `<svg width="1000" height="1000" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:${bg1};stop-opacity:1" />
@@ -215,7 +215,7 @@ function generateSVG(device) {
   </defs>
   
   <!-- Background -->
-  <rect width="500" height="500" fill="url(#bg)"/>
+  <rect width="1000" height="1000" fill="url(#bg)"/>
   
   <!-- Subtle glow -->
   <ellipse cx="250" cy="220" rx="200" ry="180" fill="url(#glow)"/>
@@ -250,8 +250,8 @@ async function main() {
     
     // Convert SVG to PNG using sharp
     try {
-      await sharp(Buffer.from(svgContent))
-        .png({ quality: 95 })
+      await sharp(Buffer.from(svgContent), { density: 300 })
+        .png({ compressionLevel: 6 })
         .toFile(pngPath);
       console.log(`✅ ${device.filename}.png (${device.name})`);
     } catch (e) {
