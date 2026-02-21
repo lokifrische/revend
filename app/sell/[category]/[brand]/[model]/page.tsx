@@ -1,269 +1,180 @@
-'use client'
+import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
+import Script from 'next/script'
+import { devices, buyers, categories } from '@/lib/data'
+import DevicePageClient from '@/components/device/DevicePageClient'
 
-import { useState, useEffect } from 'react'
-import { useParams, useSearchParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
-import Image from 'next/image'
-import { ChevronRight, ArrowLeft, Star, Package, Clock } from 'lucide-react'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
-import ConditionWizard from '@/components/comparison/ConditionWizard'
-import ComparisonTable from '@/components/comparison/ComparisonTable'
-import ImpactStrip from '@/components/shared/ImpactStrip'
-import DeviceCard from '@/components/device/DeviceCard'
-import DeviceSearch from '@/components/device/DeviceSearch'
-import { devices, getOffersForDevice, popularDevices } from '@/lib/data'
+const BASE = 'https://revend-lokis-projects-b31d1aab.vercel.app'
+const BUYER_COUNT = buyers.length
 
-export default function DevicePage() {
-  const params = useParams()
-  const searchParams = useSearchParams()
-  const router = useRouter()
+interface Props {
+  params: Promise<{ category: string; brand: string; model: string }>
+  searchParams: Promise<{ condition?: string }>
+}
 
-  const modelSlug = params.model as string
-  const categorySlug = params.category as string
-  const brandSlug = params.brand as string
-  const initialCondition = searchParams.get('condition') ?? ''
-
-  const [selectedCondition, setSelectedCondition] = useState(initialCondition)
-  const [selectedStorage, setSelectedStorage] = useState('')
-  const [imgError, setImgError] = useState(false)
+// ─── METADATA ─────────────────────────────────────────────────────────────────
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { category, brand, model } = await params
 
   const device = devices.find(
-    d => d.slug === modelSlug || (d.brandSlug === brandSlug && d.slug === modelSlug)
+    d => d.slug === model && d.brandSlug === brand && d.categorySlug === category
   )
+  if (!device) return {}
 
-  useEffect(() => {
-    if (device && device.storage.length > 0 && !selectedStorage) {
-      setSelectedStorage(device.storage[0])
-    }
-  }, [device, selectedStorage])
+  const catData = categories.find(c => c.slug === category)
+  const categoryLabel = catData?.name ?? category
 
-  const offers = selectedCondition
-    ? getOffersForDevice(device?.id ?? '', selectedCondition)
-    : []
+  const title = `Sell ${device.name} — Compare Best Prices | Revend`
+  const description = `Get up to $${device.maxOffer} for your ${device.name}. Compare offers from ${BUYER_COUNT}+ verified buyers instantly. Free shipping, fast payment.`
+  const canonicalUrl = `${BASE}/sell/${category}/${brand}/${model}`
 
-  const handleConditionSelect = (slug: string) => {
-    setSelectedCondition(slug)
-    router.replace(`/sell/${categorySlug}/${brandSlug}/${modelSlug}?condition=${slug}`, { scroll: false })
+  return {
+    title,
+    description,
+    keywords: [
+      `sell ${device.name}`,
+      `${device.name} trade in`,
+      `${device.name} buyback`,
+      `how much is my ${device.name} worth`,
+      `best place to sell ${device.name}`,
+      `sell used ${device.name}`,
+      `${device.brand} trade in`,
+      `${categoryLabel} buyback comparison`,
+    ],
+    openGraph: {
+      title: `Sell ${device.name} for up to $${device.maxOffer} | Revend`,
+      description: `Compare ${BUYER_COUNT}+ buyback offers instantly. Free shipping. Get paid fast.`,
+      url: canonicalUrl,
+      images: [
+        {
+          url: `/og/${model}.png`,
+          width: 1200,
+          height: 630,
+          alt: `Sell your ${device.name} — compare buyback prices on Revend`,
+        },
+        // fallback to brand OG image
+        {
+          url: `/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: 'Revend — Compare device buyback prices',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `Sell ${device.name} for up to $${device.maxOffer}`,
+      description: `Compare ${BUYER_COUNT}+ buyback offers on Revend. Free shipping, fast payment.`,
+    },
+    alternates: {
+      canonical: canonicalUrl,
+    },
+  }
+}
+
+// ─── STATIC PARAMS ────────────────────────────────────────────────────────────
+export async function generateStaticParams() {
+  return devices.map(d => ({
+    category: d.categorySlug,
+    brand: d.brandSlug,
+    model: d.slug,
+  }))
+}
+
+// ─── PAGE ─────────────────────────────────────────────────────────────────────
+export default async function DevicePage({ params, searchParams }: Props) {
+  const { category, brand, model } = await params
+  const { condition = '' } = await searchParams
+
+  const device = devices.find(
+    d => d.slug === model && d.brandSlug === brand && d.categorySlug === category
+  )
+  if (!device) notFound()
+
+  const catData = categories.find(c => c.slug === category)
+  const categoryLabel = catData?.name ?? category
+
+  // Prices for schema — lowPrice = "broken" multiplier (~28%), highPrice = maxOffer
+  const lowPrice = Math.round(device.maxOffer * 0.28)
+  const highPrice = device.maxOffer
+  const canonicalUrl = `${BASE}/sell/${category}/${brand}/${model}`
+
+  // ── JSON-LD: Product + AggregateOffer ──────────────────────────────────────
+  const productSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: device.name,
+    brand: {
+      '@type': 'Brand',
+      name: device.brand,
+    },
+    description: `Sell your ${device.name} and compare offers from ${BUYER_COUNT}+ verified buyback buyers on Revend. Get up to $${highPrice} instantly.`,
+    image: `${BASE}${device.image}`,
+    url: canonicalUrl,
+    offers: {
+      '@type': 'AggregateOffer',
+      lowPrice: String(lowPrice),
+      highPrice: String(highPrice),
+      priceCurrency: 'USD',
+      offerCount: String(BUYER_COUNT),
+      availability: 'https://schema.org/InStock',
+    },
   }
 
-  if (!device) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Header alwaysOpaque />
-        <main className="flex-1 flex items-center justify-center pt-20">
-          <div className="text-center">
-            <p className="text-4xl mb-4">🤔</p>
-            <h1 className="text-2xl font-bold text-navy-800 mb-2">Device not found</h1>
-            <p className="text-slate-500 mb-6">We couldn&apos;t find that device. Try searching again.</p>
-            <Link href="/" className="inline-flex items-center gap-2 px-4 py-2 bg-teal-500 text-white rounded-xl font-medium">
-              <ArrowLeft className="w-4 h-4" /> Back to search
-            </Link>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    )
+  // ── JSON-LD: BreadcrumbList ────────────────────────────────────────────────
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: BASE,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: categoryLabel,
+        item: `${BASE}/sell/${category}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: device.brand,
+        item: `${BASE}/sell/${category}/${brand}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: device.name,
+        item: canonicalUrl,
+      },
+    ],
   }
-
-  const categoryEmoji: Record<string, string> = {
-    phones: '📱', tablets: '💻', laptops: '🖥️', smartwatches: '⌚', consoles: '🎮', headphones: '🎧',
-  }
-  const emoji = categoryEmoji[categorySlug] ?? '📦'
-
-  const relatedDevices = popularDevices
-    .filter(d => d.brandSlug === brandSlug && d.id !== device.id)
-    .slice(0, 4)
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
-      <Header alwaysOpaque />
+    <>
+      {/* Structured Data */}
+      <Script
+        id="ld-product"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      <Script
+        id="ld-breadcrumb"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
 
-      <main className="flex-1 pt-20">
-        {/* Breadcrumb */}
-        <div className="bg-white border-b border-slate-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-            <nav className="flex items-center gap-1.5 text-xs text-slate-500 flex-wrap">
-              <Link href="/" className="hover:text-teal-600 transition-colors">Home</Link>
-              <ChevronRight className="w-3 h-3" />
-              <Link href={`/sell/${categorySlug}`} className="hover:text-teal-600 transition-colors capitalize">
-                {categorySlug}
-              </Link>
-              <ChevronRight className="w-3 h-3" />
-              <Link href={`/sell/${categorySlug}/${brandSlug}`} className="hover:text-teal-600 transition-colors capitalize">
-                {device.brand}
-              </Link>
-              <ChevronRight className="w-3 h-3" />
-              <span className="text-navy-800 font-medium">{device.name}</span>
-            </nav>
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left column — device info */}
-            <div className="lg:col-span-1 space-y-4">
-              {/* Device card */}
-              <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-                <div className="aspect-square bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-6 relative">
-                  {!imgError && device.image ? (
-                    <Image
-                      src={device.image}
-                      alt={device.name}
-                      width={280}
-                      height={280}
-                      className="object-contain w-full h-full drop-shadow-xl"
-                      onError={() => setImgError(true)}
-                      priority
-                    />
-                  ) : (
-                    <span className="text-8xl">{emoji}</span>
-                  )}
-                </div>
-                <div className="p-5">
-                  <p className="text-xs text-slate-400 mb-1">{device.brand}</p>
-                  <h1 className="text-xl font-bold text-navy-800 mb-3">{device.name}</h1>
-
-                  {/* Max offer */}
-                  <div className="flex items-baseline gap-1 mb-4">
-                    <span className="text-3xl font-bold text-teal-600">
-                      ${selectedCondition
-                        ? offers[0]?.offerPrice ?? device.maxOffer
-                        : device.maxOffer}
-                    </span>
-                    <span className="text-sm text-slate-400">
-                      {selectedCondition ? 'best offer' : 'up to'}
-                    </span>
-                  </div>
-
-                  {/* Storage selector */}
-                  {device.storage.length > 1 && (
-                    <div className="mb-4">
-                      <p className="text-xs font-semibold text-slate-500 mb-2">Storage</p>
-                      <div className="flex flex-wrap gap-2">
-                        {device.storage.map(s => (
-                          <button
-                            key={s}
-                            onClick={() => setSelectedStorage(s)}
-                            className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-all ${
-                              selectedStorage === s
-                                ? 'border-teal-400 bg-teal-50 text-teal-700'
-                                : 'border-slate-200 text-slate-600 hover:border-slate-300'
-                            }`}
-                          >
-                            {s}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Quick stats */}
-                  <div className="space-y-2 text-xs text-slate-500">
-                    <div className="flex items-center gap-2">
-                      <Package className="w-3.5 h-3.5 text-teal-400" />
-                      Free shipping label provided by buyer
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-3.5 h-3.5 text-teal-400" />
-                      Paid within 1–5 business days
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Star className="w-3.5 h-3.5 text-amber-400" />
-                      {offers.length > 0 ? `${offers.length} offers available` : 'Select condition to see offers'}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Mini search */}
-              <div className="bg-white rounded-2xl border border-slate-200 p-4">
-                <p className="text-xs font-semibold text-slate-500 mb-3">Search another device</p>
-                <DeviceSearch placeholder="Another device..." />
-              </div>
-            </div>
-
-            {/* Right column — comparison engine */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Condition Wizard */}
-              <div className="bg-white rounded-2xl border border-slate-200 p-5 md:p-6">
-                <ConditionWizard
-                  selected={selectedCondition}
-                  deviceMaxOffer={device.maxOffer}
-                  onSelect={handleConditionSelect}
-                />
-              </div>
-
-              {/* Impact strip */}
-              {selectedCondition && (
-                <ImpactStrip
-                  categorySlug={categorySlug}
-                  deviceName={device.name}
-                />
-              )}
-
-              {/* Comparison table */}
-              {selectedCondition ? (
-                <div className="bg-white rounded-2xl border border-slate-200 p-5 md:p-6">
-                  <div className="mb-5">
-                    <h2 className="text-lg font-bold text-navy-800">Compare all offers</h2>
-                    <p className="text-sm text-slate-500 mt-0.5">
-                      For <strong>{device.name}</strong> — <span className="capitalize">{selectedCondition}</span> condition
-                    </p>
-                  </div>
-                  <ComparisonTable
-                    offers={offers}
-                    deviceSlug={device.slug}
-                    conditionSlug={selectedCondition}
-                  />
-                </div>
-              ) : (
-                <div className="bg-white rounded-2xl border border-dashed border-slate-300 p-8 text-center">
-                  <p className="text-slate-400 text-sm">
-                    👆 Select your device&apos;s condition above to see all offers
-                  </p>
-                </div>
-              )}
-
-              {/* SEO content block */}
-              <div className="bg-white rounded-2xl border border-slate-200 p-5 md:p-6">
-                <h2 className="text-base font-bold text-navy-800 mb-3">
-                  About selling your {device.name}
-                </h2>
-                <div className="prose prose-sm text-slate-600 space-y-3">
-                  <p>
-                    The <strong>{device.name}</strong> is one of the most popular devices on Revend.
-                    Released in {device.releaseYear}, it holds its value well compared to other {device.category.toLowerCase()}.
-                    The best time to sell is now — trade-in values drop an average of 15–20% per year.
-                  </p>
-                  <p>
-                    Our verified buyers compete for your device, which means you get more than you would from a carrier trade-in or Craigslist sale.
-                    The average seller saves <strong>$47 more</strong> by comparing on Revend vs going direct to one buyer.
-                  </p>
-                  <p>
-                    <strong>Pro tip:</strong> A &quot;Good&quot; condition device typically fetches 80–90% of the &quot;Flawless&quot; price.
-                    Be accurate — buyers inspect devices on arrival and may revise if condition doesn&apos;t match.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Related devices */}
-          {relatedDevices.length > 0 && (
-            <div className="mt-12">
-              <h2 className="text-xl font-bold text-navy-800 mb-6">More {device.brand} devices</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                {relatedDevices.map(d => (
-                  <DeviceCard key={d.id} device={d} />
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      </main>
-
-      <Footer />
-    </div>
+      {/* Client Component handles all interactive UI */}
+      <DevicePageClient
+        device={device}
+        categorySlug={category}
+        brandSlug={brand}
+        modelSlug={model}
+        initialCondition={condition}
+      />
+    </>
   )
 }

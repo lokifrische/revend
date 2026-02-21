@@ -8,18 +8,21 @@ const inter = Inter({
   variable: '--font-sans',
 })
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://revend-lokis-projects-b31d1aab.vercel.app'
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://revend.com'),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Revend — The Smart Way to Sell What You Already Have',
+    default: 'Revend — Sell Your Device for the Best Price',
     template: '%s | Revend',
   },
   description:
-    'Compare offers from 20+ verified buyback companies and get the best price for your used phone, tablet, or laptop. Free, instant, no BS.',
+    'Compare buyback offers from 7+ verified buyers for iPhones, Samsung, MacBooks, and more. Get paid fast. Free shipping, no BS.',
   keywords: [
     'sell phone', 'trade in phone', 'best trade in price', 'sell iPhone',
     'phone buyback comparison', 'sell used phone', 'compare phone prices',
-    'sell Samsung', 'sell MacBook', 'device trade in',
+    'sell Samsung', 'sell MacBook', 'device trade in', 'how much is my phone worth',
+    'sell iPhone 16 Pro', 'sell Samsung Galaxy S25', 'best place to sell MacBook',
   ],
   authors: [{ name: 'Revend' }],
   creator: 'Revend',
@@ -32,23 +35,23 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://revend.com',
+    url: SITE_URL,
     siteName: 'Revend',
-    title: 'Revend — The Smart Way to Sell What You Already Have',
-    description: 'Compare offers from 20+ verified buyback companies. Get the best price for your used device instantly.',
+    title: 'Revend — Sell Your Device for the Best Price',
+    description: 'Compare buyback offers from 7+ verified buyers. Get the best price for your used device instantly.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Revend — Compare phone trade-in offers',
+        alt: 'Revend — Compare phone trade-in offers and get the best price',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Revend — The Smart Way to Sell What You Already Have',
-    description: 'Compare 20+ buyback companies. Get the best price for your device instantly.',
+    title: 'Revend — Sell Your Device for the Best Price',
+    description: 'Compare 7+ buyback buyers. Get the best price for your device instantly.',
     images: ['/og-image.png'],
     creator: '@revend',
   },
@@ -76,6 +79,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable}>
+      <head>
+        {/* Performance: preconnect to Supabase for faster API calls */}
+        {process.env.NEXT_PUBLIC_SUPABASE_URL && (
+          <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL} />
+        )}
+        {/* Preconnect to common image/asset hosts */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body className="min-h-screen bg-white text-navy-800 antialiased">
         {children}
       </body>

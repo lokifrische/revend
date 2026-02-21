@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Leaf, Twitter, Instagram, Linkedin } from 'lucide-react'
+import { Leaf, Twitter, Instagram, Linkedin, Shield } from 'lucide-react'
 
 const links = {
   Sell: [
@@ -23,7 +23,6 @@ const links = {
     { label: 'Partner with Us', href: '/partners/apply' },
     { label: 'Affiliate Program', href: '/affiliates' },
     { label: 'API Access', href: '/api-docs' },
-    { label: 'Price Check', href: '/price-check' },
     { label: 'Price Alerts', href: '/price-alerts' },
     { label: 'Sell Broken Device', href: '/sell-broken' },
   ],
@@ -37,17 +36,22 @@ const links = {
 export default function Footer() {
   return (
     <footer className="bg-navy-800 text-white">
-      {/* Impact banner */}
-      <div className="border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Trust banner */}
+      <div className="border-b border-white/10 bg-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-teal-500/20 flex items-center justify-center">
-                <Leaf className="w-5 h-5 text-teal-400" />
+            <div className="flex items-center gap-5 flex-wrap justify-center sm:justify-start">
+              <div className="flex items-center gap-2">
+                <Shield className="w-4 h-4 text-teal-400" />
+                <span className="text-sm text-slate-300 font-medium">BBB Accredited Buyers</span>
               </div>
-              <div>
-                <p className="text-sm font-semibold text-white">7,248 metric tons of CO₂ saved</p>
-                <p className="text-xs text-slate-400">By Revend users keeping devices out of landfills</p>
+              <div className="flex items-center gap-2">
+                <Leaf className="w-4 h-4 text-emerald-400" />
+                <span className="text-sm text-slate-300 font-medium">7,248 tons CO₂ saved</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-teal-400 font-bold text-sm">$8.2M+</span>
+                <span className="text-sm text-slate-300 font-medium">paid out to sellers</span>
               </div>
             </div>
             <p className="text-xs text-slate-500 text-center sm:text-right max-w-sm">
@@ -63,22 +67,25 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-teal-500">
+              <div
+                className="w-8 h-8 rounded-lg flex items-center justify-center"
+                style={{ background: 'linear-gradient(135deg, #00C4B4, #007a70)' }}
+              >
                 <span className="text-white font-bold text-sm">R</span>
               </div>
               <span className="text-lg font-bold">revend</span>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed mb-4">
-              The smart way to sell what you already have. Compare offers from 20+ verified buyers instantly.
+              The smart way to sell what you already have. Compare offers from 7+ verified buyers instantly.
             </p>
             <div className="flex gap-3">
-              <a href="#" className="w-8 h-8 rounded-lg bg-white/10 hover:bg-teal-500 flex items-center justify-center transition-colors">
+              <a href="#" className="w-9 h-9 rounded-lg bg-white/10 hover:bg-teal-500 flex items-center justify-center transition-colors" aria-label="Twitter">
                 <Twitter className="w-4 h-4" />
               </a>
-              <a href="#" className="w-8 h-8 rounded-lg bg-white/10 hover:bg-teal-500 flex items-center justify-center transition-colors">
+              <a href="#" className="w-9 h-9 rounded-lg bg-white/10 hover:bg-teal-500 flex items-center justify-center transition-colors" aria-label="Instagram">
                 <Instagram className="w-4 h-4" />
               </a>
-              <a href="#" className="w-8 h-8 rounded-lg bg-white/10 hover:bg-teal-500 flex items-center justify-center transition-colors">
+              <a href="#" className="w-9 h-9 rounded-lg bg-white/10 hover:bg-teal-500 flex items-center justify-center transition-colors" aria-label="LinkedIn">
                 <Linkedin className="w-4 h-4" />
               </a>
             </div>
@@ -111,7 +118,7 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-slate-500">
-            © 2026 Revend. All rights reserved. Prices shown are from verified buyer partners and may vary.
+            © 2026 Revend. We are not affiliated with any buyer listed.
           </p>
           <p className="text-xs text-slate-600">
             Revend is a comparison service — we never touch your device.
