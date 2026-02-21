@@ -10,6 +10,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import https from 'https';
 import http from 'http';
+import { createRequire } from 'module';
+
+const _require = createRequire(import.meta.url);
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const IMAGES_DIR = path.join(__dirname, '../public/images');
@@ -272,26 +275,20 @@ async function toOutputPNG(data) {
 
   let sharpMod;
   try {
-    const sharpPath = path.join(__dirname, '../node_modules/sharp');
-    const mod = await import(sharpPath);
-    sharpMod = mod.default || mod;
+    sharpMod = _require(path.join(__dirname, '../node_modules/sharp'));
   } catch { /* sharp not available */ }
 
   if (sharpMod) {
-    try {
-      // Resize large images (Wikipedia can be 5-14MB) down to 800x800
-      const output = await sharpMod(data)
-        .resize(800, 800, {
-          fit: 'contain',
-          background: { r: 255, g: 255, b: 255, alpha: 0 },
-          withoutEnlargement: true,
-        })
-        .png({ compressionLevel: 8 })
-        .toBuffer();
-      return output;
-    } catch (e) {
-      throw new Error(`sharp failed: ${e.message}`);
-    }
+    // Resize large images (Wikipedia can be 5-14MB) down to 800x800
+    const output = await sharpMod(data, { failOn: 'none' })
+      .resize(800, 800, {
+        fit: 'contain',
+        background: { r: 255, g: 255, b: 255, alpha: 0 },
+        withoutEnlargement: true,
+      })
+      .png({ compressionLevel: 8 })
+      .toBuffer();
+    return output;
   }
 
   // No sharp: just return data as-is (JPEG stored as .png — works in browsers)
