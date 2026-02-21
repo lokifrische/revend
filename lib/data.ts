@@ -266,6 +266,60 @@ export const devices: Device[] = [
   // Headphones
   { id: 'd-airpodspro2', name: 'AirPods Pro 2nd Gen', slug: 'airpods-pro-2', brand: 'Apple', brandSlug: 'apple', category: 'Headphones', categorySlug: 'headphones', image: '/images/airpodspro2.png', storage: ['N/A'], maxOffer: 95, releaseYear: 2022 },
   { id: 'd-sonyxm6', name: 'Sony WH-1000XM6', slug: 'sony-wh-1000xm6', brand: 'Sony', brandSlug: 'sony', category: 'Headphones', categorySlug: 'headphones', image: '/images/sonyxm6.png', storage: ['N/A'], maxOffer: 180, releaseYear: 2025 },
+  { id: 'd-sonyxm5', name: 'Sony WH-1000XM5', slug: 'sony-wh-1000xm5', brand: 'Sony', brandSlug: 'sony', category: 'Headphones', categorySlug: 'headphones', image: '/images/xm5.png', storage: ['N/A'], maxOffer: 140, releaseYear: 2022 },
+  { id: 'd-sonyxm4', name: 'Sony WH-1000XM4', slug: 'sony-wh-1000xm4', brand: 'Sony', brandSlug: 'sony', category: 'Headphones', categorySlug: 'headphones', image: '/images/xm4.png', storage: ['N/A'], maxOffer: 95, releaseYear: 2020 },
+  { id: 'd-boseqcultra', name: 'Bose QuietComfort Ultra', slug: 'bose-quietcomfort-ultra', brand: 'Bose', brandSlug: 'bose', category: 'Headphones', categorySlug: 'headphones', image: '/images/boseqcultra.png', storage: ['N/A'], maxOffer: 155, releaseYear: 2023 },
+  { id: 'd-boseqc45', name: 'Bose QuietComfort 45', slug: 'bose-quietcomfort-45', brand: 'Bose', brandSlug: 'bose', category: 'Headphones', categorySlug: 'headphones', image: '/images/boseqc45.png', storage: ['N/A'], maxOffer: 90, releaseYear: 2021 },
+  // Apple Watch (expanded)
+  { id: 'd-awultra3', name: 'Apple Watch Ultra 3', slug: 'apple-watch-ultra-3', brand: 'Apple', brandSlug: 'apple', category: 'Smartwatches', categorySlug: 'smartwatches', image: '/images/awultra3.png', storage: ['64GB'], maxOffer: 520, releaseYear: 2025, popular: true },
+  { id: 'd-aws10', name: 'Apple Watch Series 10', slug: 'apple-watch-series-10', brand: 'Apple', brandSlug: 'apple', category: 'Smartwatches', categorySlug: 'smartwatches', image: '/images/aws10.png', storage: ['64GB'], maxOffer: 240, releaseYear: 2024 },
+  { id: 'd-aws9', name: 'Apple Watch Series 9', slug: 'apple-watch-series-9', brand: 'Apple', brandSlug: 'apple', category: 'Smartwatches', categorySlug: 'smartwatches', image: '/images/aws9.png', storage: ['64GB'], maxOffer: 190, releaseYear: 2023 },
+  { id: 'd-awse2', name: 'Apple Watch SE 2nd Gen', slug: 'apple-watch-se-2', brand: 'Apple', brandSlug: 'apple', category: 'Smartwatches', categorySlug: 'smartwatches', image: '/images/awse2.png', storage: ['32GB'], maxOffer: 110, releaseYear: 2022 },
+  // Samsung Galaxy Watch
+  { id: 'd-gw7', name: 'Samsung Galaxy Watch 7', slug: 'galaxy-watch-7', brand: 'Samsung', brandSlug: 'samsung', category: 'Smartwatches', categorySlug: 'smartwatches', image: '/images/gw7.png', storage: ['16GB'], maxOffer: 165, releaseYear: 2024 },
+  { id: 'd-gw6', name: 'Samsung Galaxy Watch 6', slug: 'galaxy-watch-6', brand: 'Samsung', brandSlug: 'samsung', category: 'Smartwatches', categorySlug: 'smartwatches', image: '/images/gw6.png', storage: ['16GB'], maxOffer: 120, releaseYear: 2023 },
+  // Samsung S series (expanded)
+  { id: 'd-s24plus', name: 'Samsung Galaxy S24+', slug: 'galaxy-s24-plus', brand: 'Samsung', brandSlug: 'samsung', category: 'Phones', categorySlug: 'phones', image: '/images/s24plus.png', storage: ['256GB', '512GB'], maxOffer: 480, releaseYear: 2024 },
+  { id: 'd-s23plus', name: 'Samsung Galaxy S23+', slug: 'galaxy-s23-plus', brand: 'Samsung', brandSlug: 'samsung', category: 'Phones', categorySlug: 'phones', image: '/images/s23plus.png', storage: ['256GB', '512GB'], maxOffer: 340, releaseYear: 2023 },
+  { id: 'd-s23', name: 'Samsung Galaxy S23', slug: 'galaxy-s23', brand: 'Samsung', brandSlug: 'samsung', category: 'Phones', categorySlug: 'phones', image: '/images/s23.png', storage: ['128GB', '256GB'], maxOffer: 290, releaseYear: 2023 },
+  { id: 'd-s22ultra', name: 'Samsung Galaxy S22 Ultra', slug: 'galaxy-s22-ultra', brand: 'Samsung', brandSlug: 'samsung', category: 'Phones', categorySlug: 'phones', image: '/images/s22ultra.png', storage: ['128GB', '256GB', '512GB'], maxOffer: 280, releaseYear: 2022 },
+  { id: 'd-s22', name: 'Samsung Galaxy S22', slug: 'galaxy-s22', brand: 'Samsung', brandSlug: 'samsung', category: 'Phones', categorySlug: 'phones', image: '/images/s22.png', storage: ['128GB', '256GB'], maxOffer: 195, releaseYear: 2022 },
+  // Samsung A series
+  { id: 'd-a55', name: 'Samsung Galaxy A55', slug: 'galaxy-a55', brand: 'Samsung', brandSlug: 'samsung', category: 'Phones', categorySlug: 'phones', image: '/images/galaxya55.png', storage: ['128GB', '256GB'], maxOffer: 145, releaseYear: 2024 },
+  { id: 'd-a35', name: 'Samsung Galaxy A35', slug: 'galaxy-a35', brand: 'Samsung', brandSlug: 'samsung', category: 'Phones', categorySlug: 'phones', image: '/images/galaxya35.png', storage: ['128GB', '256GB'], maxOffer: 105, releaseYear: 2024 },
+  // Samsung Galaxy Tab
+  { id: 'd-tabs9ultra', name: 'Samsung Galaxy Tab S9 Ultra', slug: 'galaxy-tab-s9-ultra', brand: 'Samsung', brandSlug: 'samsung', category: 'Tablets', categorySlug: 'tablets', image: '/images/tabs9ultra.png', storage: ['256GB', '512GB', '1TB'], maxOffer: 580, releaseYear: 2023, popular: true },
+  { id: 'd-tabs9plus', name: 'Samsung Galaxy Tab S9+', slug: 'galaxy-tab-s9-plus', brand: 'Samsung', brandSlug: 'samsung', category: 'Tablets', categorySlug: 'tablets', image: '/images/tabs9plus.png', storage: ['256GB', '512GB'], maxOffer: 420, releaseYear: 2023 },
+  { id: 'd-tabs9', name: 'Samsung Galaxy Tab S9', slug: 'galaxy-tab-s9', brand: 'Samsung', brandSlug: 'samsung', category: 'Tablets', categorySlug: 'tablets', image: '/images/tabs9.png', storage: ['128GB', '256GB'], maxOffer: 310, releaseYear: 2023 },
+  // iPad (expanded)
+  { id: 'd-ipadpro11', name: 'iPad Pro 11" M4', slug: 'ipad-pro-11-m4', brand: 'Apple', brandSlug: 'apple', category: 'Tablets', categorySlug: 'tablets', image: '/images/ipadpro11.png', storage: ['256GB', '512GB', '1TB', '2TB'], maxOffer: 550, releaseYear: 2024 },
+  { id: 'd-ipadair11', name: 'iPad Air 11" M2', slug: 'ipad-air-11-m2', brand: 'Apple', brandSlug: 'apple', category: 'Tablets', categorySlug: 'tablets', image: '/images/ipadair11.png', storage: ['128GB', '256GB', '512GB', '1TB'], maxOffer: 340, releaseYear: 2024 },
+  { id: 'd-ipadmini7', name: 'iPad mini 7', slug: 'ipad-mini-7', brand: 'Apple', brandSlug: 'apple', category: 'Tablets', categorySlug: 'tablets', image: '/images/ipadmini7.png', storage: ['128GB', '256GB', '512GB'], maxOffer: 270, releaseYear: 2024 },
+  { id: 'd-ipad10', name: 'iPad 10th Gen', slug: 'ipad-10th-gen', brand: 'Apple', brandSlug: 'apple', category: 'Tablets', categorySlug: 'tablets', image: '/images/ipad10.png', storage: ['64GB', '256GB'], maxOffer: 195, releaseYear: 2022 },
+  // Google Pixel (expanded)
+  { id: 'd-pixel9proxl', name: 'Google Pixel 9 Pro XL', slug: 'pixel-9-pro-xl', brand: 'Google', brandSlug: 'google', category: 'Phones', categorySlug: 'phones', image: '/images/pixel9proxl.png', storage: ['128GB', '256GB', '512GB', '1TB'], maxOffer: 540, releaseYear: 2024 },
+  { id: 'd-pixel7', name: 'Google Pixel 7', slug: 'pixel-7', brand: 'Google', brandSlug: 'google', category: 'Phones', categorySlug: 'phones', image: '/images/pixel7.png', storage: ['128GB', '256GB'], maxOffer: 155, releaseYear: 2022 },
+  { id: 'd-pixel6pro', name: 'Google Pixel 6 Pro', slug: 'pixel-6-pro', brand: 'Google', brandSlug: 'google', category: 'Phones', categorySlug: 'phones', image: '/images/pixel6pro.png', storage: ['128GB', '256GB', '512GB'], maxOffer: 95, releaseYear: 2021 },
+  { id: 'd-pixel6', name: 'Google Pixel 6', slug: 'pixel-6', brand: 'Google', brandSlug: 'google', category: 'Phones', categorySlug: 'phones', image: '/images/pixel6.png', storage: ['128GB', '256GB'], maxOffer: 70, releaseYear: 2021 },
+  // MacBook (expanded)
+  { id: 'd-mba13m4', name: 'MacBook Air 13" M4', slug: 'macbook-air-13-m4', brand: 'Apple', brandSlug: 'apple', category: 'Laptops', categorySlug: 'laptops', image: '/images/mba13m4.png', storage: ['256GB', '512GB', '1TB', '2TB'], maxOffer: 720, releaseYear: 2025, popular: true },
+  { id: 'd-mbp14m4', name: 'MacBook Pro 14" M4 Pro', slug: 'macbook-pro-14-m4-pro', brand: 'Apple', brandSlug: 'apple', category: 'Laptops', categorySlug: 'laptops', image: '/images/mbp14m4.png', storage: ['512GB', '1TB', '2TB'], maxOffer: 1050, releaseYear: 2024 },
+  { id: 'd-mbp16m4', name: 'MacBook Pro 16" M4 Pro', slug: 'macbook-pro-16-m4-pro', brand: 'Apple', brandSlug: 'apple', category: 'Laptops', categorySlug: 'laptops', image: '/images/mbp16m4.png', storage: ['512GB', '1TB', '2TB', '4TB'], maxOffer: 1380, releaseYear: 2024 },
+  // Surface Laptop
+  { id: 'd-surface7', name: 'Surface Laptop 7', slug: 'surface-laptop-7', brand: 'Microsoft', brandSlug: 'microsoft', category: 'Laptops', categorySlug: 'laptops', image: '/images/surfacelaptop7.png', storage: ['256GB', '512GB', '1TB'], maxOffer: 680, releaseYear: 2024 },
+  { id: 'd-surface6', name: 'Surface Laptop 6', slug: 'surface-laptop-6', brand: 'Microsoft', brandSlug: 'microsoft', category: 'Laptops', categorySlug: 'laptops', image: '/images/surfacelaptop6.png', storage: ['256GB', '512GB', '1TB'], maxOffer: 540, releaseYear: 2024 },
+  // Meta Quest
+  { id: 'd-quest3', name: 'Meta Quest 3', slug: 'meta-quest-3', brand: 'Meta', brandSlug: 'meta', category: 'Consoles', categorySlug: 'consoles', image: '/images/quest3.png', storage: ['128GB', '512GB'], maxOffer: 220, releaseYear: 2023, popular: true },
+  { id: 'd-quest3s', name: 'Meta Quest 3S', slug: 'meta-quest-3s', brand: 'Meta', brandSlug: 'meta', category: 'Consoles', categorySlug: 'consoles', image: '/images/quest3s.png', storage: ['128GB', '256GB'], maxOffer: 160, releaseYear: 2024 },
+  // Xbox
+  { id: 'd-xboxx', name: 'Xbox Series X', slug: 'xbox-series-x', brand: 'Microsoft', brandSlug: 'microsoft', category: 'Consoles', categorySlug: 'consoles', image: '/images/xboxx.png', storage: ['1TB'], maxOffer: 240, releaseYear: 2020, popular: true },
+  { id: 'd-xboxs', name: 'Xbox Series S', slug: 'xbox-series-s', brand: 'Microsoft', brandSlug: 'microsoft', category: 'Consoles', categorySlug: 'consoles', image: '/images/xboxs.png', storage: ['512GB'], maxOffer: 130, releaseYear: 2020 },
+  // Nintendo Switch (original)
+  { id: 'd-switch', name: 'Nintendo Switch', slug: 'nintendo-switch', brand: 'Nintendo', brandSlug: 'nintendo', category: 'Consoles', categorySlug: 'consoles', image: '/images/switch.png', storage: ['32GB'], maxOffer: 95, releaseYear: 2017 },
+  // Steam Deck
+  { id: 'd-steamdeck', name: 'Steam Deck OLED', slug: 'steam-deck-oled', brand: 'Valve', brandSlug: 'valve', category: 'Consoles', categorySlug: 'consoles', image: '/images/steamdeckoled.png', storage: ['512GB', '1TB'], maxOffer: 310, releaseYear: 2023 },
+  // OnePlus
+  { id: 'd-oneplus12', name: 'OnePlus 12', slug: 'oneplus-12', brand: 'OnePlus', brandSlug: 'oneplus', category: 'Phones', categorySlug: 'phones', image: '/images/oneplus12.png', storage: ['256GB', '512GB'], maxOffer: 320, releaseYear: 2024 },
 ]
 
 // ─── MOCK OFFERS GENERATOR ─────────────────────────────────
