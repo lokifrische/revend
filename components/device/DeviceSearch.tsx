@@ -3,10 +3,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { Search, ArrowRight, TrendingUp } from 'lucide-react'
-import { searchDevices, popularDevices, type Device } from '@/lib/data'
+import type { Device } from '@/lib/data'
 import { cn } from '@/lib/cn'
-
-const POPULAR = popularDevices.slice(0, 6)
 
 interface DeviceSearchProps {
   placeholder?: string
@@ -14,9 +12,14 @@ interface DeviceSearchProps {
   className?: string
 }
 
-export default function DeviceSearch({ placeholder = 'Search any phone, tablet, or laptop...', large = false, className }: DeviceSearchProps) {
+export default function DeviceSearch({
+  placeholder = 'Search any phone, tablet, or laptop...',
+  large = false,
+  className,
+}: DeviceSearchProps) {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<Device[]>([])
+  const [popular, setPopular] = useState<Device[]>([])
   const [open, setOpen] = useState(false)
   const [focused, setFocused] = useState(false)
   const [selected, setSelected] = useState(-1)
@@ -24,14 +27,27 @@ export default function DeviceSearch({ placeholder = 'Search any phone, tablet, 
   const inputRef = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // Search on query change
+  // Fetch popular devices on mount
+  useEffect(() => {
+    fetch('/api/popular')
+      .then(r => r.json())
+      .then((data: Device[]) => setPopular(data.slice(0, 6)))
+      .catch(() => {})
+  }, [])
+
+  // Search on query change (debounced)
   useEffect(() => {
     if (query.length < 2) {
       setResults([])
       return
     }
-    const r = searchDevices(query)
-    setResults(r)
+    const timer = setTimeout(() => {
+      fetch(`/api/search?q=${encodeURIComponent(query)}`)
+        .then(r => r.json())
+        .then((data: Device[]) => setResults(data))
+        .catch(() => setResults([]))
+    }, 120)
+    return () => clearTimeout(timer)
   }, [query])
 
   // Close on outside click
@@ -48,14 +64,17 @@ export default function DeviceSearch({ placeholder = 'Search any phone, tablet, 
 
   const showDropdown = focused && (results.length > 0 || query.length < 2)
 
-  const navigateToDevice = useCallback((device: Device) => {
-    setOpen(false)
-    setQuery('')
-    router.push(`/sell/${device.categorySlug}/${device.brandSlug}/${device.slug}`)
-  }, [router])
+  const navigateToDevice = useCallback(
+    (device: Device) => {
+      setOpen(false)
+      setQuery('')
+      router.push(`/sell/${device.categorySlug}/${device.brandSlug}/${device.slug}`)
+    },
+    [router],
+  )
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    const items = results.length > 0 ? results : POPULAR
+    const items = results.length > 0 ? results : popular
     if (e.key === 'ArrowDown') {
       e.preventDefault()
       setSelected(s => Math.min(s + 1, items.length - 1))
@@ -75,33 +94,55 @@ export default function DeviceSearch({ placeholder = 'Search any phone, tablet, 
     }
   }
 
+  const categoryEmoji = (cat: string) => {
+    const map: Record<string, string> = {
+      Phones: '📱', Tablets: '💻', Laptops: '🖥️', Smartwatches: '⌚', Consoles: '🎮', Headphones: '🎧',
+    }
+    return map[cat] ?? '📦'
+  }
+
   return (
     <div ref={containerRef} className={cn('relative w-full', className)}>
       {/* Input */}
-      <div className={cn(
-        'flex items-center gap-3 bg-white rounded-2xl transition-all duration-200',
-        large ? 'px-5 py-4 shadow-2xl' : 'px-4 py-3 shadow-lg',
-        focused ? 'ring-2 ring-teal-400 shadow-teal-100' : 'ring-1 ring-slate-200 hover:ring-slate-300'
-      )}>
+      <div
+        className={cn(
+          'flex items-center gap-3 bg-white rounded-2xl transition-all duration-200',
+          large ? 'px-5 py-4 shadow-2xl' : 'px-4 py-3 shadow-lg',
+          focused
+            ? 'ring-2 ring-teal-400 shadow-teal-100'
+            : 'ring-1 ring-slate-200 hover:ring-slate-300',
+        )}
+      >
         <Search className={cn('shrink-0 text-teal-500', large ? 'w-5 h-5' : 'w-4 h-4')} />
         <input
           ref={inputRef}
           type="text"
           value={query}
-          onChange={e => { setQuery(e.target.value); setOpen(true); setSelected(-1) }}
-          onFocus={() => { setFocused(true); setOpen(true) }}
+          onChange={e => {
+            setQuery(e.target.value)
+            setOpen(true)
+            setSelected(-1)
+          }}
+          onFocus={() => {
+            setFocused(true)
+            setOpen(true)
+          }}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           className={cn(
             'flex-1 bg-transparent outline-none text-navy-800 placeholder:text-slate-400 min-w-0',
-            large ? 'text-lg' : 'text-sm'
+            large ? 'text-lg' : 'text-sm',
           )}
           autoComplete="off"
           spellCheck={false}
         />
         {query && (
           <button
-            onClick={() => { setQuery(''); setResults([]); inputRef.current?.focus() }}
+            onClick={() => {
+              setQuery('')
+              setResults([])
+              inputRef.current?.focus()
+            }}
             className="text-slate-400 hover:text-slate-600 text-xs px-1.5 py-0.5 rounded hover:bg-slate-100 transition-colors"
           >
             ✕
@@ -132,25 +173,29 @@ export default function DeviceSearch({ placeholder = 'Search any phone, tablet, 
                   onClick={() => navigateToDevice(device)}
                   className={cn(
                     'w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-slate-50 transition-colors',
-                    selected === i && 'bg-teal-50'
+                    selected === i && 'bg-teal-50',
                   )}
                 >
                   <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
-                    <span className="text-base">
-                      {device.category === 'Phones' ? '📱' : device.category === 'Tablets' ? '💻' : device.category === 'Laptops' ? '🖥️' : device.category === 'Smartwatches' ? '⌚' : '📦'}
-                    </span>
+                    <span className="text-base">{categoryEmoji(device.category)}</span>
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-navy-800 truncate">{device.name}</p>
-                    <p className="text-xs text-slate-400">{device.brand} · {device.category}</p>
+                    <p className="text-xs text-slate-400">
+                      {device.brand} · {device.category}
+                    </p>
                   </div>
                   <div className="text-right shrink-0">
-                    <p className="text-sm font-semibold text-teal-600">Up to ${device.maxOffer}</p>
+                    {device.maxOffer > 0 && (
+                      <p className="text-sm font-semibold text-teal-600">
+                        Up to ${device.maxOffer}
+                      </p>
+                    )}
                   </div>
                 </button>
               ))}
             </div>
-          ) : (
+          ) : popular.length > 0 ? (
             <div>
               <div className="flex items-center gap-2 px-4 pt-3 pb-2">
                 <TrendingUp className="w-3.5 h-3.5 text-amber-500" />
@@ -158,32 +203,36 @@ export default function DeviceSearch({ placeholder = 'Search any phone, tablet, 
                   Popular Right Now
                 </p>
               </div>
-              {POPULAR.map((device, i) => (
+              {popular.map((device, i) => (
                 <button
                   key={device.id}
                   onClick={() => navigateToDevice(device)}
                   className={cn(
                     'w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-slate-50 transition-colors',
-                    selected === i && 'bg-teal-50'
+                    selected === i && 'bg-teal-50',
                   )}
                 >
                   <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
-                    <span className="text-base">
-                      {device.category === 'Phones' ? '📱' : device.category === 'Tablets' ? '💻' : device.category === 'Laptops' ? '🖥️' : '📦'}
-                    </span>
+                    <span className="text-base">{categoryEmoji(device.category)}</span>
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-navy-800 truncate">{device.name}</p>
                     <p className="text-xs text-slate-400">{device.brand}</p>
                   </div>
-                  <p className="text-sm font-semibold text-teal-600 shrink-0">Up to ${device.maxOffer}</p>
+                  {device.maxOffer > 0 && (
+                    <p className="text-sm font-semibold text-teal-600 shrink-0">
+                      Up to ${device.maxOffer}
+                    </p>
+                  )}
                 </button>
               ))}
             </div>
-          )}
+          ) : null}
           <div className="border-t border-slate-100 px-4 py-2.5">
             <p className="text-xs text-slate-400 text-center">
-              {results.length > 0 ? `${results.length} results found` : '600+ devices available'}
+              {results.length > 0
+                ? `${results.length} results found`
+                : '600+ devices available'}
               {' · '}
               <span className="text-teal-500">Free to compare</span>
             </p>

@@ -116,3 +116,26 @@ body {
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
+
+/* Animate-in (expand reveal) */
+@keyframes animateIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-in {
+  animation: animateIn 0.2s ease-out forwards;
+}
+
+/* Price counter accent */
+.price-accent {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Teal glow button effect */
+.btn-teal-glow {
+  box-shadow: 0 4px 24px rgba(0, 196, 180, 0.25);
+}
+.btn-teal-glow:hover {
+  box-shadow: 0 6px 32px rgba(0, 196, 180, 0.4);
+}
