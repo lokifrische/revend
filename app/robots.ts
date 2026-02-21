@@ -1,5 +1,7 @@
 import { MetadataRoute } from 'next'
 
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://revend-lokis-projects-b31d1aab.vercel.app'
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
@@ -9,6 +11,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/go/', '/admin/', '/api/'],
       },
     ],
-    sitemap: 'https://revend.com/sitemap.xml',
+    sitemap: `${BASE}/sitemap.xml`,
+    host: BASE,
   }
 }

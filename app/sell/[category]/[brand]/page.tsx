@@ -13,14 +13,36 @@ interface Props {
   params: Promise<{ category: string; brand: string }>
 }
 
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://revend-lokis-projects-b31d1aab.vercel.app'
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category, brand } = await params
   const brandData = brands.find(b => b.slug === brand)
   const catData = categories.find(c => c.slug === category)
   if (!brandData || !catData) return {}
+
+  const title = `Sell ${brandData.name} ${catData.name} — Compare Buyback Prices | Revend`
+  const description = `Compare offers from 20+ verified buyers for your used ${brandData.name} ${catData.name.toLowerCase()}. Get the best price instantly. Free shipping, fast payment.`
+  const canonicalUrl = `${BASE}/sell/${category}/${brand}`
+
   return {
-    title: `Sell ${brandData.name} ${catData.name} — Best Trade-In Prices`,
-    description: `Compare offers from 20+ verified buyers for your used ${brandData.name} ${catData.name.toLowerCase()}. Get the best price instantly.`,
+    title,
+    description,
+    keywords: [
+      `sell ${brandData.name} ${catData.name.toLowerCase()}`,
+      `${brandData.name} trade in`,
+      `${brandData.name} buyback`,
+      `best place to sell ${brandData.name}`,
+      `${brandData.name} ${catData.name.toLowerCase()} buyback comparison`,
+    ],
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+    },
+    alternates: {
+      canonical: canonicalUrl,
+    },
   }
 }
 

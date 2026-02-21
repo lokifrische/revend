@@ -86,13 +86,14 @@ export const brands: Brand[] = [
 ]
 
 // ─── CONDITIONS ────────────────────────────────────────────
+// Slugs match the live Supabase DB (like-new, good, fair, poor)
 export const conditions: Condition[] = [
   {
-    id: 'cond-flawless',
-    name: 'Flawless',
-    slug: 'flawless',
-    description: 'Like new. No scratches, cracks, or blemishes. Perfect working order.',
-    icon: '✨',
+    id: 'cond-like-new',
+    name: 'Like New',
+    slug: 'like-new',
+    description: 'No scratches, works perfectly. Original packaging preferred.',
+    icon: '⭐',
     priceMultiplier: 1.0,
     color: 'teal',
   },
@@ -100,27 +101,27 @@ export const conditions: Condition[] = [
     id: 'cond-good',
     name: 'Good',
     slug: 'good',
-    description: 'Minor wear — small scratches only. Fully functional.',
+    description: 'Minor scratches only. Fully functional.',
     icon: '👍',
-    priceMultiplier: 0.82,
+    priceMultiplier: 0.85,
     color: 'blue',
   },
   {
     id: 'cond-fair',
     name: 'Fair',
     slug: 'fair',
-    description: 'Visible scratches or minor dents. Fully functional.',
-    icon: '⚡',
-    priceMultiplier: 0.62,
+    description: 'Visible wear or minor dents. Fully functional.',
+    icon: '🔄',
+    priceMultiplier: 0.65,
     color: 'amber',
   },
   {
-    id: 'cond-broken',
-    name: 'Broken',
-    slug: 'broken',
-    description: 'Cracked screen, won\'t turn on, or other significant damage.',
-    icon: '🔧',
-    priceMultiplier: 0.28,
+    id: 'cond-poor',
+    name: 'Poor',
+    slug: 'poor',
+    description: 'Heavy wear or damage — device still powers on.',
+    icon: '⚠️',
+    priceMultiplier: 0.40,
     color: 'red',
   },
 ]

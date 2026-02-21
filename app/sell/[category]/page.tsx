@@ -12,13 +12,34 @@ interface Props {
   params: Promise<{ category: string }>
 }
 
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://revend-lokis-projects-b31d1aab.vercel.app'
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category } = await params
   const cat = categories.find(c => c.slug === category)
   if (!cat) return {}
+
+  const title = `Sell Your ${cat.name} — Best Prices Guaranteed | Revend`
+  const description = `Compare offers from 20+ verified buyers for your used ${cat.name.toLowerCase()}. Get the best price in minutes. Free shipping, fast payment, no pressure.`
+
   return {
-    title: `Sell Your ${cat.name} — Best Trade-In Prices`,
-    description: `Compare offers from 20+ verified buyers for your used ${cat.name.toLowerCase()}. Get the best price in minutes. Free, instant, no pressure.`,
+    title,
+    description,
+    keywords: [
+      `sell ${cat.name.toLowerCase()}`,
+      `best place to sell ${cat.name.toLowerCase()}`,
+      `${cat.name.toLowerCase()} trade in`,
+      `${cat.name.toLowerCase()} buyback comparison`,
+      `how much is my ${cat.name.toLowerCase()} worth`,
+    ],
+    openGraph: {
+      title,
+      description,
+      url: `${BASE}/sell/${category}`,
+    },
+    alternates: {
+      canonical: `${BASE}/sell/${category}`,
+    },
   }
 }
 
