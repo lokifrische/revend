@@ -76,13 +76,13 @@ export const categories: Category[] = [
 
 // ─── BRANDS ────────────────────────────────────────────────
 export const brands: Brand[] = [
-  { id: 'b-apple', name: 'Apple', slug: 'apple', logo: '🍎' },
-  { id: 'b-samsung', name: 'Samsung', slug: 'samsung', logo: '📦' },
-  { id: 'b-google', name: 'Google', slug: 'google', logo: '🔍' },
-  { id: 'b-oneplus', name: 'OnePlus', slug: 'oneplus', logo: '1️⃣' },
-  { id: 'b-microsoft', name: 'Microsoft', slug: 'microsoft', logo: '🪟' },
-  { id: 'b-sony', name: 'Sony', slug: 'sony', logo: '🎵' },
-  { id: 'b-nintendo', name: 'Nintendo', slug: 'nintendo', logo: '🎮' },
+  { id: 'b-apple', name: 'Apple', slug: 'apple', logo: '/brands/apple.svg' },
+  { id: 'b-samsung', name: 'Samsung', slug: 'samsung', logo: '/brands/samsung.svg' },
+  { id: 'b-google', name: 'Google', slug: 'google', logo: '/brands/google.svg' },
+  { id: 'b-oneplus', name: 'OnePlus', slug: 'oneplus', logo: '/brands/oneplus.svg' },
+  { id: 'b-microsoft', name: 'Microsoft', slug: 'microsoft', logo: '/brands/microsoft.svg' },
+  { id: 'b-sony', name: 'Sony', slug: 'sony', logo: '/brands/sony.svg' },
+  { id: 'b-nintendo', name: 'Nintendo', slug: 'nintendo', logo: '/brands/nintendo.svg' },
 ]
 
 // ─── CONDITIONS ────────────────────────────────────────────

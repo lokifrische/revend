@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ChevronRight, ArrowLeft, Star, Package, Clock } from 'lucide-react'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
@@ -25,6 +26,7 @@ export default function DevicePage() {
 
   const [selectedCondition, setSelectedCondition] = useState(initialCondition)
   const [selectedStorage, setSelectedStorage] = useState('')
+  const [imgError, setImgError] = useState(false)
 
   const device = devices.find(
     d => d.slug === modelSlug || (d.brandSlug === brandSlug && d.slug === modelSlug)
@@ -103,8 +105,20 @@ export default function DevicePage() {
             <div className="lg:col-span-1 space-y-4">
               {/* Device card */}
               <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-                <div className="aspect-square bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center">
-                  <span className="text-8xl">{emoji}</span>
+                <div className="aspect-square bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-6 relative">
+                  {!imgError && device.image ? (
+                    <Image
+                      src={device.image}
+                      alt={device.name}
+                      width={280}
+                      height={280}
+                      className="object-contain w-full h-full drop-shadow-xl"
+                      onError={() => setImgError(true)}
+                      priority
+                    />
+                  ) : (
+                    <span className="text-8xl">{emoji}</span>
+                  )}
                 </div>
                 <div className="p-5">
                   <p className="text-xs text-slate-400 mb-1">{device.brand}</p>
