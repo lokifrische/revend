@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Menu, X, ChevronDown, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/cn'
 
@@ -45,19 +46,15 @@ export default function Header({ alwaysOpaque = false }: { alwaysOpaque?: boolea
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group shrink-0">
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center shadow-sm"
-              style={{ background: 'linear-gradient(135deg, #00C4B4, #007a70)' }}
-            >
-              <span className="text-white font-bold text-sm">R</span>
-            </div>
-            <span className={cn(
-              'text-xl font-bold tracking-tight transition-colors',
-              scrolled ? 'text-navy-800' : 'text-white'
-            )}>
-              revend
-            </span>
+          <Link href="/" className="flex items-center shrink-0 group">
+            <Image
+              src="/logo-header.png"
+              alt="Revend"
+              width={140}
+              height={40}
+              className="h-9 w-auto object-contain"
+              priority
+            />
           </Link>
 
           {/* Desktop Nav */}

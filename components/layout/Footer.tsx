@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Leaf, Twitter, Instagram, Linkedin, Shield } from 'lucide-react'
 
 const links = {
@@ -67,13 +68,13 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg, #00C4B4, #007a70)' }}
-              >
-                <span className="text-white font-bold text-sm">R</span>
-              </div>
-              <span className="text-lg font-bold">revend</span>
+              <Image
+                src="/logo-header.png"
+                alt="Revend"
+                width={120}
+                height={34}
+                className="h-8 w-auto object-contain"
+              />
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed mb-4">
               The smart way to sell what you already have. Compare offers from 7+ verified buyers instantly.
