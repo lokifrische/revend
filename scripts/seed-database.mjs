@@ -1,8 +1,22 @@
 // Seed Revend Supabase database with all devices, buyers, conditions, and mock offers
 import { createClient } from '/home/openclaw/.openclaw/workspace/revend/node_modules/@supabase/supabase-js/dist/index.mjs';
 
-const SUPABASE_URL = 'https://msvobzzeteeoddjtxfji.supabase.co';
-const SERVICE_KEY = 'REDACTED_ROTATE_KEY';
+// Load from .env.local or environment variables — NEVER hardcode keys
+import { readFileSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const envPath = join(__dirname, '../.env.local');
+try {
+  readFileSync(envPath, 'utf8').split('\n').forEach(line => {
+    const [k, ...v] = line.split('=');
+    if (k && v.length) process.env[k.trim()] = v.join('=').trim();
+  });
+} catch {}
+
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://msvobzzeteeoddjtxfji.supabase.co';
+const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+if (!SERVICE_KEY) { console.error('❌ SUPABASE_SERVICE_ROLE_KEY not set — add to .env.local'); process.exit(1); }
 
 const db = createClient(SUPABASE_URL, SERVICE_KEY, {
   auth: { autoRefreshToken: false, persistSession: false }
