@@ -67,6 +67,7 @@ export function dbBuyerToBuyer(b: DbBuyer): Buyer {
     yearsActive: 5,   // not stored in DB — placeholder
     tagline: b.tagline || 'Trusted device buyback',
     acceptedConditions: ['like-new', 'good', 'fair', 'poor'],
+    website: b.website || '',
   }
 }
 
@@ -114,6 +115,7 @@ export function dbOfferToBuyerOffer(o: DbOffer, rank: number): BuyerOffer {
     yearsActive: 5,
     tagline: o.tagline || 'Trusted device buyback',
     acceptedConditions: ['like-new', 'good', 'fair', 'poor'],
+    website: o.buyerWebsite || '',
   }
 
   return {
