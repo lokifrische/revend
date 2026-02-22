@@ -5,7 +5,6 @@ import { Bell, CheckCircle, TrendingUp } from 'lucide-react'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import DeviceSearch from '@/components/device/DeviceSearch'
-import { devices } from '@/lib/data'
 
 export default function PriceAlertsPage() {
   const [submitted, setSubmitted] = useState(false)

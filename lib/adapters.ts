@@ -70,6 +70,34 @@ export function dbBuyerToBuyer(b: DbBuyer): Buyer {
   }
 }
 
+// ─── DB condition row → Condition (for ConditionWizard) ─────────────────────
+const CONDITION_COLORS: Record<string, string> = {
+  'like-new': 'teal',
+  'good': 'blue',
+  'fair': 'amber',
+  'poor': 'red',
+}
+
+export function dbConditionToCondition(c: {
+  id: string
+  name: string
+  slug: string
+  description: string | null
+  icon: string | null
+  price_mult: number
+  sort_order: number
+}): import('./data').Condition {
+  return {
+    id: c.id,
+    name: c.name,
+    slug: c.slug,
+    description: c.description ?? '',
+    icon: c.icon ?? '📦',
+    priceMultiplier: c.price_mult,
+    color: CONDITION_COLORS[c.slug] ?? 'teal',
+  }
+}
+
 // ─── DbOffer (from getAllOffersForFamily) → BuyerOffer ───────────────────────
 export function dbOfferToBuyerOffer(o: DbOffer, rank: number): BuyerOffer {
   const buyer: Buyer = {
