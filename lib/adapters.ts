@@ -121,9 +121,12 @@ export function dbOfferToBuyerOffer(o: DbOffer, rank: number): BuyerOffer {
   return {
     buyer,
     offerPrice: Math.round(o.offerCents / 100),
+    offerCents: o.offerCents,
     isBestOffer: rank === 0,
     shippingFree: true,
     lockDays: 30,
+    deviceId: o.deviceId,
+    conditionId: o.conditionId,
   }
 }
 

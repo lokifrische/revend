@@ -232,7 +232,7 @@ export default async function AdminClicksPage() {
         </div>
 
         <p className="text-xs text-slate-400 text-center mt-4">
-          ⚠️ No auth — internal use only. Add authentication before deploying to production.
+          🔒 Protected by HTTP Basic Auth. Password set via ADMIN_PASSWORD environment variable.
         </p>
       </div>
     </div>

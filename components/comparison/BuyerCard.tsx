@@ -38,7 +38,13 @@ export default function BuyerCard({ offer, rank, deviceSlug, conditionSlug }: Bu
 
   const handleSellNow = () => {
     setClicked(true)
-    window.open(`/go/${buyer.slug}/${deviceSlug}/${conditionSlug}`, '_blank')
+    const params = new URLSearchParams({
+      device_id: offer.deviceId,
+      buyer_id: offer.buyer.id,
+      condition_id: offer.conditionId,
+      offer_cents: offer.offerCents.toString(),
+    })
+    window.open(`/go/${buyer.slug}/${deviceSlug}/${conditionSlug}?${params.toString()}`, '_blank')
     setTimeout(() => setClicked(false), 2000)
   }
 

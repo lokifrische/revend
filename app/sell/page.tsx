@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import { categories } from '@/lib/data'
+import { getCategoriesWithCounts } from '@/lib/db'
 
 export const metadata: Metadata = {
   title: 'Sell Your Device — Compare Trade-In Offers | Revend',
@@ -10,7 +10,8 @@ export const metadata: Metadata = {
     'Choose your device category and instantly compare offers from 7+ verified buyers. Get the best price for your phone, tablet, laptop, watch, console, or headphones.',
 }
 
-export default function SellPage() {
+export default async function SellPage() {
+  const categories = await getCategoriesWithCounts()
   return (
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#0F1C2E' }}>
       <Header alwaysOpaque />
@@ -47,7 +48,7 @@ export default function SellPage() {
                     {cat.name}
                   </h2>
                   <p className="mt-1 text-sm text-slate-400">
-                    {cat.deviceCount.toLocaleString()}+ models
+                    {(cat.deviceCount || 0).toLocaleString()}+ models
                   </p>
                 </div>
 

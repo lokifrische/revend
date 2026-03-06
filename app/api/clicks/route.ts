@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase'
 import { randomUUID } from 'crypto'
+import { rateLimit, getClientIp } from '@/lib/rate-limit'
 
 // Fallback buyer website map for mock/local data
 const BUYER_WEBSITES: Record<string, string> = {
@@ -19,6 +20,24 @@ const BUYER_WEBSITES: Record<string, string> = {
  * Returns: { clickId, redirectUrl }
  */
 export async function POST(req: NextRequest) {
+  // Rate limiting: 10 clicks per minute per IP (generous for legitimate users)
+  const ip = getClientIp(req.headers)
+  const rateLimitResult = rateLimit(ip, { maxRequests: 10, windowSeconds: 60 })
+
+  if (!rateLimitResult.success) {
+    return NextResponse.json(
+      { error: 'Too many requests' },
+      {
+        status: 429,
+        headers: {
+          'X-RateLimit-Limit': rateLimitResult.limit.toString(),
+          'X-RateLimit-Remaining': '0',
+          'X-RateLimit-Reset': new Date(rateLimitResult.reset).toISOString(),
+          'Retry-After': Math.ceil((rateLimitResult.reset - Date.now()) / 1000).toString(),
+        },
+      }
+    )
+  }
   let body: {
     deviceId?: string
     buyerId?: string

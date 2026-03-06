@@ -60,9 +60,12 @@ export interface Buyer {
 export interface BuyerOffer {
   buyer: Buyer
   offerPrice: number
+  offerCents: number
   isBestOffer: boolean
   shippingFree: boolean
   lockDays: number
+  deviceId: string
+  conditionId: string
 }
 
 // ─── CATEGORIES ────────────────────────────────────────────
@@ -386,9 +389,12 @@ export function getOffersForDevice(deviceId: string, conditionSlug: string): Buy
   return offerData.map((o, i) => ({
     buyer: o.buyer,
     offerPrice: Math.round(basePrice * multiplier * o.pct),
+    offerCents: Math.round(basePrice * multiplier * o.pct * 100),
     isBestOffer: i === 0,
     shippingFree: true,
     lockDays: 30,
+    deviceId: '', // Legacy mock data - not used
+    conditionId: '', // Legacy mock data - not used
   }))
 }
 

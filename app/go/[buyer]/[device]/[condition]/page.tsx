@@ -1,9 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { ExternalLink, Copy, Check, ArrowLeft, Shield } from 'lucide-react'
+import { getSessionId } from '@/lib/session'
 
 // The go page uses client-side state; buyer/device data is fetched from API
 interface BuyerInfo {
@@ -23,13 +24,21 @@ interface DeviceInfo {
 
 export default function GoPage() {
   const params = useParams()
+  const searchParams = useSearchParams()
   const buyerSlug = params.buyer as string
   const deviceSlug = params.device as string
   const conditionSlug = params.condition as string
 
+  // Extract tracking params from URL
+  const deviceId = searchParams.get('device_id')
+  const buyerId = searchParams.get('buyer_id')
+  const conditionId = searchParams.get('condition_id')
+  const offerCents = searchParams.get('offer_cents')
+
   const [countdown, setCountdown] = useState(3)
   const [copied, setCopied] = useState(false)
   const [redirected, setRedirected] = useState(false)
+  const [redirectUrl, setRedirectUrl] = useState<string | null>(null)
   const [buyer, setBuyer] = useState<BuyerInfo | null>(null)
   const [device, setDevice] = useState<DeviceInfo | null>(null)
 
@@ -45,26 +54,59 @@ export default function GoPage() {
       if (d) setDevice({ name: d.name, slug: d.slug, categorySlug: d.categorySlug, brandSlug: d.brandSlug })
 
       const b = buyers.find((x: any) => x.slug === buyerSlug)
-      if (b) setBuyer({ name: b.name, slug: b.slug, logo: b.logo, website: b.website })
+      if (b) setBuyer({ name: b.name, slug: b.slug, logo: b.logo, website: b.website, promoCode: b.promoCode })
       else setBuyer({ name: buyerSlug, slug: buyerSlug, logo: buyerSlug.slice(0, 3).toUpperCase() })
     }).catch(() => {
       setBuyer({ name: buyerSlug, slug: buyerSlug, logo: buyerSlug.slice(0, 3).toUpperCase() })
     })
   }, [buyerSlug, deviceSlug])
 
+  // Log affiliate click and get redirect URL
+  useEffect(() => {
+    const sessionId = getSessionId()
+    fetch('/api/clicks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        deviceId,
+        buyerId,
+        conditionId,
+        offerCents: offerCents ? parseInt(offerCents) : undefined,
+        sessionId,
+        buyerSlug,
+        deviceSlug,
+        conditionSlug,
+      }),
+    })
+      .then(r => r.json())
+      .then((data: { clickId?: string; redirectUrl?: string }) => {
+        if (data.redirectUrl) {
+          setRedirectUrl(data.redirectUrl)
+        }
+      })
+      .catch(err => {
+        console.error('Failed to log click:', err)
+      })
+  }, [deviceId, buyerId, conditionId, offerCents, buyerSlug, deviceSlug, conditionSlug])
+
+  // Countdown timer
   useEffect(() => {
     const timer = setInterval(() => {
       setCountdown(c => {
         if (c <= 1) {
           clearInterval(timer)
           setRedirected(true)
+          // Auto-redirect when countdown reaches 0
+          if (redirectUrl) {
+            window.location.href = redirectUrl
+          }
           return 0
         }
         return c - 1
       })
     }, 1000)
     return () => clearInterval(timer)
-  }, [])
+  }, [redirectUrl])
 
   const handleCopy = () => {
     if (buyer?.promoCode) {
@@ -147,8 +189,10 @@ export default function GoPage() {
               <button
                 onClick={() => {
                   setRedirected(true)
-                  if (buyer?.website) {
-                    window.open(buyer.website, '_blank')
+                  if (redirectUrl) {
+                    window.location.href = redirectUrl
+                  } else if (buyer?.website) {
+                    window.location.href = buyer.website
                   }
                 }}
                 className="w-full flex items-center justify-center gap-2 px-5 py-4 bg-navy-800 hover:bg-navy-700 text-white font-bold rounded-2xl transition-all"

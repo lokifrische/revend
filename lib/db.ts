@@ -54,6 +54,7 @@ export type DbFamily = {
 export type DbOffer = {
   deviceId: string
   storageGb: number
+  conditionId: string
   conditionSlug: string
   conditionName: string
   priceMult: number
@@ -327,8 +328,9 @@ export async function getAllOffersForFamily(familyId: string): Promise<DbOffer[]
     .from('offers')
     .select(`
       offer_cents,
+      condition_id,
       devices!inner(id, storage_gb, carrier, family_id),
-      conditions!inner(slug, name, price_mult),
+      conditions!inner(id, slug, name, price_mult),
       buyers!inner(id, name, slug, website, payment_methods, payment_speed_days, trust_score, is_featured, tagline)
     `)
     .eq('devices.family_id', familyId)
@@ -340,6 +342,7 @@ export async function getAllOffersForFamily(familyId: string): Promise<DbOffer[]
   return (data as any[]).map(o => ({
     deviceId: o.devices.id,
     storageGb: o.devices.storage_gb,
+    conditionId: o.condition_id,
     conditionSlug: o.conditions.slug,
     conditionName: o.conditions.name,
     priceMult: o.conditions.price_mult,
@@ -363,8 +366,9 @@ export async function getOffersForDevice(deviceId: string, conditionSlug: string
     .from('offers')
     .select(`
       offer_cents,
+      condition_id,
       devices!inner(id, storage_gb, family_id),
-      conditions!inner(slug, name, price_mult),
+      conditions!inner(id, slug, name, price_mult),
       buyers!inner(id, name, slug, website, payment_methods, payment_speed_days, trust_score, is_featured, tagline)
     `)
     .eq('device_id', deviceId)
@@ -377,6 +381,7 @@ export async function getOffersForDevice(deviceId: string, conditionSlug: string
   return (data as any[]).map(o => ({
     deviceId: o.devices.id,
     storageGb: o.devices.storage_gb,
+    conditionId: o.condition_id,
     conditionSlug: o.conditions.slug,
     conditionName: o.conditions.name,
     priceMult: o.conditions.price_mult,
