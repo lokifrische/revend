@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/sync-buyers",
+      "schedule": "0 */6 * * *"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+device_name,storage_gb,carrier,condition,price_usd
+iPhone 15 Pro,256,Unlocked,Excellent,850.00
+iPhone 15 Pro,256,Unlocked,Good,780.00
+iPhone 15 Pro,256,Unlocked,Fair,650.00
+iPhone 15 Pro,512,Unlocked,Excellent,950.00
+iPhone 15 Pro,512,Unlocked,Good,880.00
+iPhone 15 Pro,512,Unlocked,Fair,750.00
+iPhone 15,128,Unlocked,Excellent,650.00
+iPhone 15,128,Unlocked,Good,580.00
+iPhone 15,128,Unlocked,Fair,480.00
+iPhone 15,256,Unlocked,Excellent,720.00
+iPhone 15,256,Unlocked,Good,650.00
+iPhone 15,256,Unlocked,Fair,550.00
+iPhone 14 Pro,128,Unlocked,Excellent,620.00
+iPhone 14 Pro,128,Unlocked,Good,550.00
+iPhone 14 Pro,128,Unlocked,Fair,450.00
+iPhone 14,128,Unlocked,Excellent,480.00
+iPhone 14,128,Unlocked,Good,420.00
+iPhone 14,128,Unlocked,Fair,350.00
+Galaxy S24 Ultra,256,Unlocked,Excellent,920.00
+Galaxy S24 Ultra,256,Unlocked,Good,850.00
+Galaxy S24 Ultra,256,Unlocked,Fair,720.00
+Galaxy S24,128,Unlocked,Excellent,620.00
+Galaxy S24,128,Unlocked,Good,560.00
+Galaxy S24,128,Unlocked,Fair,470.00
+Galaxy S23 Ultra,256,Unlocked,Excellent,780.00
+Galaxy S23 Ultra,256,Unlocked,Good,710.00
+Galaxy S23 Ultra,256,Unlocked,Fair,600.00
+Pixel 9 Pro,128,Unlocked,Excellent,720.00
+Pixel 9 Pro,128,Unlocked,Good,650.00
+Pixel 9 Pro,128,Unlocked,Fair,550.00
+Pixel 8,128,Unlocked,Excellent,520.00
+Pixel 8,128,Unlocked,Good,460.00
+Pixel 8,128,Unlocked,Fair,380.00
+iPad Pro 12.9",256,WiFi,Excellent,920.00
+iPad Pro 12.9",256,WiFi,Good,850.00
+iPad Pro 11",128,WiFi,Excellent,650.00
+iPad Pro 11",128,WiFi,Good,580.00
+MacBook Air M2,256,N/A,Excellent,820.00
+MacBook Air M2,256,N/A,Good,750.00
+MacBook Pro 14" M3,512,N/A,Excellent,1650.00
+MacBook Pro 14" M3,512,N/A,Good,1520.00
+Apple Watch Series 9,32,GPS,Excellent,320.00
+Apple Watch Series 9,32,GPS,Good,280.00
+Galaxy Watch 6,16,Bluetooth,Excellent,220.00
+Galaxy Watch 6,16,Bluetooth,Good,190.00
