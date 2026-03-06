@@ -6,19 +6,22 @@ import { ArrowRight } from 'lucide-react'
 import { useState } from 'react'
 import type { Device } from '@/lib/data'
 import { cn } from '@/lib/cn'
+import { getIcon } from '@/lib/icon-map'
 
 interface DeviceCardProps {
   device: Device
   variant?: 'default' | 'compact'
 }
 
-const categoryEmoji: Record<string, string> = {
-  Phones: '📱',
-  Tablets: '💻',
-  Laptops: '🖥️',
-  Smartwatches: '⌚',
-  Consoles: '🎮',
-  Headphones: '🎧',
+// Map category names to Lucide icon names
+const categoryIconMap: Record<string, string> = {
+  Phones: 'Smartphone',
+  Tablets: 'Tablet',
+  Laptops: 'Laptop',
+  Smartwatches: 'Watch',
+  Watches: 'Watch',
+  Consoles: 'Gamepad2',
+  Headphones: 'Headphones',
 }
 
 // Brand accent colors for image backgrounds
@@ -34,7 +37,8 @@ const brandBg: Record<string, string> = {
 
 export default function DeviceCard({ device, variant = 'default' }: DeviceCardProps) {
   const href = `/sell/${device.categorySlug}/${device.brandSlug}/${device.slug}`
-  const emoji = categoryEmoji[device.category] ?? '📦'
+  const iconName = categoryIconMap[device.category] ?? 'Package'
+  const Icon = getIcon(iconName)
   const [imgError, setImgError] = useState(false)
   const bgGradient = brandBg[device.brand] ?? 'from-slate-50 to-slate-100'
 
@@ -55,7 +59,7 @@ export default function DeviceCard({ device, variant = 'default' }: DeviceCardPr
               onError={() => setImgError(true)}
             />
           ) : (
-            <span className="text-xl">{emoji}</span>
+            <Icon className="w-5 h-5 text-slate-400" />
           )}
         </div>
         <div className="flex-1 min-w-0">
@@ -90,7 +94,9 @@ export default function DeviceCard({ device, variant = 'default' }: DeviceCardPr
             onError={() => setImgError(true)}
           />
         ) : (
-          <span className="text-6xl">{emoji}</span>
+          <div className="w-24 h-24 rounded-2xl bg-white/50 backdrop-blur-sm flex items-center justify-center">
+            <Icon className="w-12 h-12 text-slate-400" />
+          </div>
         )}
         <div className="absolute top-3 right-3">
           <span className="text-xs font-semibold text-slate-500 bg-white/80 backdrop-blur-sm px-2 py-1 rounded-lg">

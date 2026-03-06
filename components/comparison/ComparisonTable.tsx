@@ -1,4 +1,4 @@
-import { RefreshCw, Shield, Lock, Clock } from 'lucide-react'
+import { RefreshCw, Shield, Lock, Clock, Truck } from 'lucide-react'
 import type { BuyerOffer } from '@/lib/data'
 import BuyerCard from './BuyerCard'
 
@@ -45,7 +45,8 @@ export default function ComparisonTable({ offers, deviceSlug, conditionSlug }: C
             Verified buyers
           </span>
           <span className="flex items-center gap-1">
-            🚚 Free shipping
+            <Truck className="w-3.5 h-3.5 text-teal-500" />
+            Free shipping
           </span>
         </div>
       </div>

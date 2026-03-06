@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, Search } from 'lucide-react'
 import type { Metadata } from 'next'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
@@ -8,6 +8,7 @@ import DeviceCard from '@/components/device/DeviceCard'
 import DeviceSearch from '@/components/device/DeviceSearch'
 import { getCategories, getFamiliesByCategory } from '@/lib/db'
 import { dbFamilyToDevice } from '@/lib/adapters'
+import { getIcon } from '@/lib/icon-map'
 
 interface Props {
   params: Promise<{ category: string }>
@@ -66,7 +67,14 @@ export default async function CategoryPage({ params }: Props) {
         <div className="bg-white border-b border-slate-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <div className="flex items-center gap-4 mb-6">
-              <span className="text-5xl">{cat.icon}</span>
+              {(() => {
+                const Icon = getIcon(cat.icon)
+                return (
+                  <div className="w-16 h-16 rounded-2xl bg-teal-50 flex items-center justify-center text-teal-600">
+                    <Icon className="w-8 h-8" />
+                  </div>
+                )
+              })()}
               <div>
                 <h1 className="text-3xl font-bold text-navy-800">Sell Your {cat.name}</h1>
                 <p className="text-slate-500 mt-1">
@@ -103,7 +111,9 @@ export default async function CategoryPage({ params }: Props) {
 
           {categoryDevices.length === 0 && (
             <div className="text-center py-20">
-              <p className="text-4xl mb-4">🔭</p>
+              <div className="w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 mx-auto mb-4">
+                <Search className="w-8 h-8" />
+              </div>
               <p className="text-slate-500">No devices listed yet in this category.</p>
               <Link href="/" className="mt-4 inline-block text-teal-600 font-medium">
                 ← Back to search

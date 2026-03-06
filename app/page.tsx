@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, Shield, Zap, TrendingUp, Leaf, Users, Award } from 'lucide-react'
+import { ArrowRight, Shield, Zap, TrendingUp, Leaf, Users, Award, Search, Scale, DollarSign, Star } from 'lucide-react'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import DeviceSearch from '@/components/device/DeviceSearch'
@@ -7,6 +7,7 @@ import DeviceCard from '@/components/device/DeviceCard'
 import { platformStats } from '@/lib/data'
 import { getCategoriesWithCounts, getPopularFamilies, getBuyers } from '@/lib/db'
 import { dbFamilyToDevice, dbBuyerToBuyer } from '@/lib/adapters'
+import { getIcon } from '@/lib/icon-map'
 
 export default async function HomePage() {
   const [categories, popularFamilies, dbBuyers] = await Promise.all([
@@ -155,23 +156,28 @@ export default async function HomePage() {
             <p className="text-slate-500">We compare prices across all major categories.</p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-            {categories.map(cat => (
-              <Link
-                key={cat.id}
-                href={`/sell/${cat.slug}`}
-                className="group flex flex-col items-center gap-3 p-5 rounded-2xl bg-white border border-slate-200 hover:border-teal-300 hover:shadow-lg hover:shadow-teal-50 hover:-translate-y-1 transition-all duration-200"
-              >
-                <span className="text-3xl">{cat.icon}</span>
-                <div className="text-center">
-                  <p className="text-sm font-semibold text-navy-800 group-hover:text-teal-700 transition-colors">
-                    {cat.name}
-                  </p>
-                  {(cat.deviceCount ?? 0) > 0 && (
-                    <p className="text-xs text-slate-400 mt-0.5">{cat.deviceCount} devices</p>
-                  )}
-                </div>
-              </Link>
-            ))}
+            {categories.map(cat => {
+              const Icon = getIcon(cat.icon)
+              return (
+                <Link
+                  key={cat.id}
+                  href={`/sell/${cat.slug}`}
+                  className="group flex flex-col items-center gap-3 p-5 rounded-2xl bg-white border border-slate-200 hover:border-teal-300 hover:shadow-lg hover:shadow-teal-50 hover:-translate-y-1 transition-all duration-200"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-teal-50 flex items-center justify-center text-teal-600 group-hover:bg-teal-500 group-hover:text-white transition-colors">
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm font-semibold text-navy-800 group-hover:text-teal-700 transition-colors">
+                      {cat.name}
+                    </p>
+                    {(cat.deviceCount ?? 0) > 0 && (
+                      <p className="text-xs text-slate-400 mt-0.5">{cat.deviceCount} devices</p>
+                    )}
+                  </div>
+                </Link>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -224,21 +230,21 @@ export default async function HomePage() {
             {[
               {
                 step: '01',
-                icon: '🔍',
+                IconComponent: Search,
                 title: 'Search your device',
                 desc: 'Type your device model. We support 600+ phones, tablets, laptops, and more.',
                 color: 'teal',
               },
               {
                 step: '02',
-                icon: '⚖️',
+                IconComponent: Scale,
                 title: 'Compare every offer',
                 desc: 'See all offers from verified buyers side-by-side, ranked by price. No guessing.',
                 color: 'teal',
               },
               {
                 step: '03',
-                icon: '💰',
+                IconComponent: DollarSign,
                 title: 'Get paid fast',
                 desc: 'Pick your buyer, ship free, and get paid in 1–5 days via PayPal, Venmo, or Zelle.',
                 color: 'amber',
@@ -249,9 +255,9 @@ export default async function HomePage() {
                 className="relative flex flex-col items-center text-center p-6 rounded-2xl glass"
               >
                 <div
-                  className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-4 ${step.color === 'amber' ? 'bg-amber-500/20' : 'bg-teal-500/20'}`}
+                  className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-4 ${step.color === 'amber' ? 'bg-amber-500/20 text-amber-400' : 'bg-teal-500/20 text-teal-400'}`}
                 >
-                  {step.icon}
+                  <step.IconComponent className="w-8 h-8" />
                 </div>
                 <div
                   className={`absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${step.color === 'amber' ? 'bg-amber-500 text-white' : 'bg-teal-500 text-white'}`}
@@ -348,7 +354,10 @@ export default async function HomePage() {
                     </div>
                     <div>
                       <p className="text-xs font-semibold text-navy-800">{buyer.name}</p>
-                      <p className="text-xs text-slate-400">⭐ {buyer.rating}</p>
+                      <p className="text-xs text-slate-400 flex items-center gap-1">
+                        <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                        {buyer.rating}
+                      </p>
                     </div>
                   </div>
                 ))}

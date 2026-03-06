@@ -23,7 +23,7 @@ create table if not exists categories (
   id          uuid primary key default uuid_generate_v4(),
   name        text not null unique,
   slug        text not null unique,
-  icon        text,          -- emoji or icon name
+  icon        text,          -- Lucide icon name (e.g. 'Smartphone', 'Tablet', 'Laptop')
   sort_order  integer default 99,
   is_active   boolean default true,
   created_at  timestamptz default now()
@@ -72,7 +72,7 @@ create table if not exists conditions (
   name            text not null unique,  -- "Like New", "Good", "Fair", "Poor"
   slug            text not null unique,  -- "like-new", "good", "fair", "poor"
   description     text,
-  icon            text,                  -- emoji
+  icon            text,                  -- Lucide icon name (e.g. 'Sparkles', 'Check', 'AlertCircle')
   price_mult      numeric(4,3) default 1.000, -- price multiplier vs "Good"
   sort_order      integer default 99,
   created_at      timestamptz default now()

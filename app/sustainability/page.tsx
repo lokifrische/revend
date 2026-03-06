@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Leaf, Recycle, ArrowRight, Globe, BarChart3 } from 'lucide-react'
+import { Leaf, Recycle, ArrowRight, Globe, BarChart3, Smartphone, Scale, Factory, RefreshCw } from 'lucide-react'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { platformStats, co2ByCategory } from '@/lib/data'
@@ -20,10 +20,10 @@ const co2Labels: Record<string, string> = {
 }
 
 const impactStats = [
-  { value: '50M+', label: 'phones discarded in the US annually', icon: '📱' },
-  { value: '40kg', label: 'average e-waste per person per year', icon: '⚖️' },
-  { value: '57kg', label: 'CO₂ to manufacture one smartphone', icon: '🏭' },
-  { value: '100x', label: 'more likely to recycle if financially rewarded', icon: '♻️' },
+  { value: '50M+', label: 'phones discarded in the US annually', IconComponent: Smartphone },
+  { value: '40kg', label: 'average e-waste per person per year', IconComponent: Scale },
+  { value: '57kg', label: 'CO₂ to manufacture one smartphone', IconComponent: Factory },
+  { value: '100x', label: 'more likely to recycle if financially rewarded', IconComponent: RefreshCw },
 ]
 
 export default function SustainabilityPage() {
@@ -63,7 +63,9 @@ export default function SustainabilityPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {impactStats.map((stat, i) => (
                 <div key={i} className="text-center p-5 rounded-2xl bg-slate-50 border border-slate-100">
-                  <span className="text-3xl mb-2 block">{stat.icon}</span>
+                  <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mx-auto mb-3">
+                    <stat.IconComponent className="w-6 h-6 text-emerald-600" />
+                  </div>
                   <p className="text-2xl font-bold text-navy-800 mb-1">{stat.value}</p>
                   <p className="text-xs text-slate-500 leading-relaxed">{stat.label}</p>
                 </div>

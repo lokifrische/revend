@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ChevronRight, ArrowLeft, Star, Package, Clock } from 'lucide-react'
+import { ChevronRight, ArrowLeft, Star, Package, Clock, Smartphone, Tablet, Laptop, Watch, Gamepad2, Headphones } from 'lucide-react'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import ConditionWizard from '@/components/comparison/ConditionWizard'
@@ -16,6 +16,7 @@ import { type Condition } from '@/lib/data'
 import { filterAndAdaptOffers } from '@/lib/adapters'
 import type { DbOffer } from '@/lib/db'
 import type { Device } from '@/lib/data'
+import { getIcon } from '@/lib/icon-map'
 
 interface DevicePageClientProps {
   family: {
@@ -39,13 +40,15 @@ interface DevicePageClientProps {
   brandSlug: string
 }
 
-const categoryEmoji: Record<string, string> = {
-  phones: '📱',
-  tablets: '💻',
-  laptops: '🖥️',
-  smartwatches: '⌚',
-  consoles: '🎮',
-  headphones: '🎧',
+// Map category slugs to Lucide icon names
+const categoryIconMap: Record<string, string> = {
+  phones: 'Smartphone',
+  tablets: 'Tablet',
+  laptops: 'Laptop',
+  smartwatches: 'Watch',
+  watches: 'Watch',
+  consoles: 'Gamepad2',
+  headphones: 'Headphones',
 }
 
 function formatStorageGb(gb: number): string {
@@ -70,7 +73,8 @@ export default function DevicePageClient({
   )
   const [imgError, setImgError] = useState(false)
 
-  const emoji = categoryEmoji[categorySlug] ?? '📦'
+  const iconName = categoryIconMap[categorySlug] ?? 'Package'
+  const CategoryIcon = getIcon(iconName)
 
   // Build unique storage labels + variant ID map
   const storageOptions = family.variants.map(v => ({
@@ -148,7 +152,9 @@ export default function DevicePageClient({
                       priority
                     />
                   ) : (
-                    <span className="text-8xl">{emoji}</span>
+                    <div className="w-32 h-32 rounded-3xl bg-white/50 backdrop-blur-sm flex items-center justify-center">
+                      <CategoryIcon className="w-16 h-16 text-slate-400" />
+                    </div>
                   )}
                 </div>
                 <div className="p-5">

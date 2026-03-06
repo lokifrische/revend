@@ -70,12 +70,12 @@ export interface BuyerOffer {
 
 // ─── CATEGORIES ────────────────────────────────────────────
 export const categories: Category[] = [
-  { id: 'cat-phones', name: 'Phones', slug: 'phones', icon: '📱', deviceCount: 312 },
-  { id: 'cat-tablets', name: 'Tablets', slug: 'tablets', icon: '💻', deviceCount: 87 },
-  { id: 'cat-watches', name: 'Smartwatches', slug: 'smartwatches', icon: '⌚', deviceCount: 64 },
-  { id: 'cat-laptops', name: 'Laptops', slug: 'laptops', icon: '🖥️', deviceCount: 95 },
-  { id: 'cat-consoles', name: 'Consoles', slug: 'consoles', icon: '🎮', deviceCount: 28 },
-  { id: 'cat-headphones', name: 'Headphones', slug: 'headphones', icon: '🎧', deviceCount: 41 },
+  { id: 'cat-phones', name: 'Phones', slug: 'phones', icon: 'Smartphone', deviceCount: 312 },
+  { id: 'cat-tablets', name: 'Tablets', slug: 'tablets', icon: 'Tablet', deviceCount: 87 },
+  { id: 'cat-watches', name: 'Smartwatches', slug: 'smartwatches', icon: 'Watch', deviceCount: 64 },
+  { id: 'cat-laptops', name: 'Laptops', slug: 'laptops', icon: 'Laptop', deviceCount: 95 },
+  { id: 'cat-consoles', name: 'Consoles', slug: 'consoles', icon: 'Gamepad2', deviceCount: 28 },
+  { id: 'cat-headphones', name: 'Headphones', slug: 'headphones', icon: 'Headphones', deviceCount: 41 },
 ]
 
 // ─── BRANDS ────────────────────────────────────────────────
@@ -97,7 +97,7 @@ export const conditions: Condition[] = [
     name: 'Like New',
     slug: 'like-new',
     description: 'No scratches, works perfectly. Original packaging preferred.',
-    icon: '⭐',
+    icon: 'Sparkles',
     priceMultiplier: 1.0,
     color: 'teal',
   },
@@ -106,7 +106,7 @@ export const conditions: Condition[] = [
     name: 'Good',
     slug: 'good',
     description: 'Minor scratches only. Fully functional.',
-    icon: '👍',
+    icon: 'Check',
     priceMultiplier: 0.85,
     color: 'blue',
   },
@@ -115,7 +115,7 @@ export const conditions: Condition[] = [
     name: 'Fair',
     slug: 'fair',
     description: 'Visible wear or minor dents. Fully functional.',
-    icon: '🔄',
+    icon: 'AlertCircle',
     priceMultiplier: 0.65,
     color: 'amber',
   },
@@ -124,7 +124,7 @@ export const conditions: Condition[] = [
     name: 'Poor',
     slug: 'poor',
     description: 'Heavy wear or damage — device still powers on.',
-    icon: '⚠️',
+    icon: 'XCircle',
     priceMultiplier: 0.40,
     color: 'red',
   },

@@ -3,6 +3,7 @@
 import { conditions as defaultConditions, type Condition } from '@/lib/data'
 import { cn } from '@/lib/cn'
 import { Check } from 'lucide-react'
+import { getIcon } from '@/lib/icon-map'
 
 interface ConditionWizardProps {
   selected?: string
@@ -43,6 +44,7 @@ export default function ConditionWizard({
           const isSelected = selected === cond.slug
           const price = Math.round(deviceMaxOffer * cond.priceMultiplier)
           const colors = colorMap[cond.color] ?? colorMap.teal
+          const ConditionIcon = getIcon(cond.icon)
 
           return (
             <button
@@ -69,7 +71,15 @@ export default function ConditionWizard({
               )}
 
               {/* Icon */}
-              <span className="text-2xl mb-2">{cond.icon}</span>
+              <div className={cn(
+                'w-10 h-10 rounded-xl flex items-center justify-center mb-2',
+                isSelected ? colors.bg : 'bg-slate-50'
+              )}>
+                <ConditionIcon className={cn(
+                  'w-5 h-5',
+                  isSelected ? colors.text : 'text-slate-400'
+                )} />
+              </div>
 
               {/* Name */}
               <p
