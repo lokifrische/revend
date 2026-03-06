@@ -102,13 +102,8 @@ export async function GET(req: NextRequest) {
     if (process.env.SLACK_WEBHOOK_URL) {
       await sendSlackAlert([
         {
-          buyerId: 'unknown',
           buyerSlug: 'unknown',
-          success: false,
           error: errorMessage,
-          startedAt: new Date().toISOString(),
-          completedAt: new Date().toISOString(),
-          duration,
         },
       ])
     }

@@ -93,7 +93,6 @@ export class BaseCSVAdapter implements BuyerAdapter {
       trim: true,
       delimiter: this.csvConfig.delimiter || ',',
       from: (this.csvConfig.skipRows || 0) + 1,
-      encoding: this.csvConfig.encoding || 'utf-8',
     })
 
     // Transform to standardized format
