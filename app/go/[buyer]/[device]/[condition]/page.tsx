@@ -179,7 +179,7 @@ export default function GoPage() {
                   </button>
                 </div>
                 <p className="text-xs text-amber-600 mt-2">
-                  This code was unlocked by Revend — paste it at checkout
+                  This code was unlocked by Revend - paste it at checkout
                 </p>
               </div>
             )}

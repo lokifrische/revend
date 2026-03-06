@@ -5,7 +5,7 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 
 export const metadata: Metadata = {
-  title: 'About Revend — Why We Built This',
+  title: 'About Revend - Why We Built This',
   description: 'Revend was built to give consumers a fairer deal when selling their used devices. No more leaving money on the table.',
 }
 

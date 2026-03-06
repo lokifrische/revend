@@ -13,7 +13,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://revend-lokis-proje
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Revend — Sell Your Device for the Best Price',
+    default: 'Revend | Sell Your Device for the Best Price',
     template: '%s | Revend',
   },
   description:
@@ -37,20 +37,20 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: SITE_URL,
     siteName: 'Revend',
-    title: 'Revend — Sell Your Device for the Best Price',
+    title: 'Revend | Sell Your Device for the Best Price',
     description: 'Compare buyback offers from 7+ verified buyers. Get the best price for your used device instantly.',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Revend — Compare phone trade-in offers and get the best price',
+        alt: 'Revend | Compare phone trade-in offers and get the best price',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Revend — Sell Your Device for the Best Price',
+    title: 'Revend | Sell Your Device for the Best Price',
     description: 'Compare 7+ buyback buyers. Get the best price for your device instantly.',
     images: ['/og-image.jpg'],
     creator: '@revend',

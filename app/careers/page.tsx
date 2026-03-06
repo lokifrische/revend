@@ -36,7 +36,7 @@ const openings = [
     dept: 'Operations',
     type: 'Full-time',
     location: 'Remote or Indianapolis, IN',
-    description: 'Build the operational infrastructure behind Revend — from buyer onboarding and dispute resolution to pricing systems and seller experience.',
+    description: 'Build the operational infrastructure behind Revend - from buyer onboarding and dispute resolution to pricing systems and seller experience.',
   },
 ]
 
