@@ -48,11 +48,11 @@ export default function Header({ alwaysOpaque = false }: { alwaysOpaque?: boolea
           {/* Logo */}
           <Link href="/" className="flex items-center shrink-0 group">
             <Image
-              src="/logo-header.png"
+              src="/logo.png"
               alt="Revend"
-              width={140}
-              height={40}
-              className="h-9 w-auto object-contain"
+              width={200}
+              height={60}
+              className="h-16 w-auto object-contain"
               priority
             />
           </Link>
